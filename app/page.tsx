@@ -1,20 +1,23 @@
-import Posts from "./components/Posts"
-import MyProfilePic from './components/MyProfilePic'
+import Posts from "./components/Posts";
+import AllTags from "./components/AllTags";
 
-export const revalidate = 86400
+export const revalidate = 86400;
 
 export default function Home() {
   return (
-    <div className="mx-auto">
-      <MyProfilePic />
-      <p className="mt-12 mb-12 text-3xl text-center dark:text-white">
-        Hello and Welcome 👋&nbsp;
+    <div className="w-full">
+      <p className="mt-12 mb-12 text-3xl text-center">
+        Hello And Welcome 👋&nbsp;
         <span className="whitespace-nowrap">
-          I'm <span className="font-bold">Dave</span>.
-        </span>
+          I'm <span className="font-bold">Kalab</span>.
+        </span>{" "}
+        And This My Blog
       </p>
-      {/* @ts-expect-error Server Component */}
-      <Posts />
+
+      <div className="flex justify-center gap-6 mx-auto">
+        <Posts />
+        <AllTags />
+      </div>
     </div>
-  )
+  );
 }

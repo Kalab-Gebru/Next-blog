@@ -4,15 +4,15 @@ const nextConfig = {
     appDir: true,
   },
   images: {
+    domains: ["lh3.googleusercontent.com"],
+    // domains: ["codex.so"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
-        port: '',
-        pathname: '/gitdagray/test-blogposts/main/images/**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

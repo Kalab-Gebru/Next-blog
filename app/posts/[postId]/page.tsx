@@ -1,8 +1,9 @@
 import getFormattedDate from "@/lib/getFormattedDate";
-import { getPostsMeta, getPostByName } from "@/lib/posts";
+import { getPostsMeta, getPostById } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import "highlight.js/styles/github-dark.css";
+import EditorJsRenderer from "@/app/components/EditorJsRenderer";
 
 export const revalidate = 86400;
 
@@ -23,7 +24,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params: { postId } }: Props) {
-  const post = await getPostByName(postId); //deduped!
+  const post = await getPostById(postId); //deduped!
 
   if (!post) {
     return {
@@ -37,13 +38,11 @@ export async function generateMetadata({ params: { postId } }: Props) {
 }
 
 export default async function Post({ params: { postId } }: Props) {
-  const post = await getPostByName(postId); //deduped!
+  const post = await getPostById(postId); //deduped!
 
   if (!post) notFound();
 
   const { meta, content } = post;
-
-  const pubDate = getFormattedDate(meta.date);
 
   const tags = meta.tags.map((tag, i) => (
     <Link key={i} href={`/tags/${tag}`}>
@@ -52,17 +51,22 @@ export default async function Post({ params: { postId } }: Props) {
   ));
 
   return (
-    <>
-      <h2 className="mt-4 mb-0 text-3xl">{meta.title}</h2>
-      <p className="mt-0 text-sm">{pubDate}</p>
-      <article>{content}</article>
-      <section>
+    <div className="w-full xl:w-[900px] mx-auto bg-white shadow p-16 mt-4 divide-y-2">
+      <article className="mb-8">
+        <EditorJsRenderer
+          data={content}
+          title={meta.title}
+          date={meta.date}
+          tags={meta.tags}
+        />
+      </article>
+      {/* <section>
         <h3>Related:</h3>
         <div className="flex flex-row gap-4">{tags}</div>
-      </section>
-      <p className="mb-10">
+      </section> */}
+      <p className="py-4">
         <Link href="/">← Back to home</Link>
       </p>
-    </>
+    </div>
   );
 }

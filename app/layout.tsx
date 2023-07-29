@@ -1,26 +1,26 @@
-import './globals.css'
-import Navbar from './components/Navbar'
-import type { Metadata } from 'next'
-
+import "./globals.css";
+import BlogNavbar from "./components/BlogNavbar";
+import type { Metadata } from "next";
+import AuthProvider from "./context/AuthProvider";
 
 export const metadata: Metadata = {
-  title: "Dave's Blog",
-  description: 'Created by Dave Gray',
-}
+  title: "Kalab's Blog",
+  description: "Created by Kalab Gebru",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className="dark:bg-slate-800">
-        <Navbar />
-        <main className="px-4 md:px-6 prose prose-xl prose-slate dark:prose-invert mx-auto">
-          {children}
-        </main>
+      <body className="bg-gray-100">
+        <AuthProvider>
+          <BlogNavbar />
+          <main className="px-4 mx-auto md:px-6 prose-slate">{children}</main>
+        </AuthProvider>
       </body>
     </html>
-  )
+  );
 }

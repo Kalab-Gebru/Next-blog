@@ -1,9 +1,3 @@
-import { compileMDX } from "next-mdx-remote/rsc";
-import rehypeAutolinkHeadings from "rehype-autolink-headings/lib";
-import rehypeHighlight from "rehype-highlight/lib";
-import rehypeSlug from "rehype-slug";
-import Video from "@/app/components/Video";
-import CustomImage from "@/app/components/CustomImage";
 import {
   collection,
   doc,
@@ -14,16 +8,9 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
+import { BlogPost, Meta, createdPost } from "@/types";
 
-type Filetree = {
-  tree: [
-    {
-      path: string;
-    }
-  ];
-};
-
-export async function getPostByName(
+export async function getPostById(
   postId: string
 ): Promise<BlogPost | undefined> {
   const postref = doc(db, "Posts", postId);
@@ -34,11 +21,9 @@ export async function getPostByName(
     const blogPostObj: BlogPost = {
       meta: {
         id: data.id,
-        title: data.data()?.Title,
-        date: data.data()?.Date,
-        tags: data.data()?.Tags,
+        ...data.data()?.meta,
       },
-      content: data.data()?.Content,
+      content: data.data()?.content,
     };
 
     return blogPostObj;
@@ -57,11 +42,9 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
     const filterdData = data.docs.map((doc) => ({
       meta: {
         id: doc.id,
-        title: doc.data().Title,
-        date: doc.data().Date,
-        tags: doc.data().Tags,
+        ...doc.data().meta,
       },
-      content: doc.data().Content,
+      content: doc.data().content,
     }));
     const posts: Meta[] = [];
 
@@ -75,5 +58,16 @@ export async function getPostsMeta(): Promise<Meta[] | undefined> {
   } catch (err) {
     console.log(err);
     return undefined;
+  }
+}
+
+export async function createPosts(postInput: createdPost) {
+  const postref = collection(db, "Posts");
+
+  try {
+    await addDoc(postref, { ...postInput });
+    console.log("post created");
+  } catch (err) {
+    console.log(err);
   }
 }
