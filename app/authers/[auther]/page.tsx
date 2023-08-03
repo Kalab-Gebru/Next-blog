@@ -1,13 +1,15 @@
 import { getPostsMeta } from "@/lib/posts";
 import ListItem from "@/app/components/ListItem";
+import { options } from "../../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth/next";
 import Link from "next/link";
-import AllTags from "../../components/AllTags";
+import AllTag from "../../components/AllTags";
 
 export const revalidate = 86400;
 
 type Props = {
   params: {
-    tag: string;
+    auther: string;
   };
 };
 
@@ -21,31 +23,37 @@ export async function staticParams() {
 
   if (!posts) return [];
 
-  const tags = new Set(posts.map((post) => post.tags).flat());
+  const authers = new Set(posts.map((post) => post.auther.userName));
 
-  return Array.from(tags).map((tag) => ({ tag }));
+  return Array.from(authers).map((auther) => ({ auther }));
 }
 
-export function generateMetadata({ params: { tag } }: Props) {
+export function generateMetadata({ params: { auther } }: Props) {
   return {
-    title: `Posts about ${tag.replaceAll("%20", " ")}`,
+    title: `Posts by ${auther.replace("%20", " ")}`,
   };
 }
 
-export default async function TagPostList({ params: { tag } }: Props) {
+export default async function autherPostList({ params: { auther } }: Props) {
   const posts = await getPostsMeta(); //deduped!
+  const session = await getServerSession(options);
+  const user = {
+    userName: session?.user?.name || null,
+    email: session?.user?.email || null,
+  };
 
   if (!posts)
     return <p className="mt-10 text-center">Sorry, no posts available.</p>;
 
-  const tagPosts = posts.filter((post) =>
-    post.tags.includes(tag.replaceAll("%20", " "))
+  const autherPosts = posts.filter(
+    (post) => post.auther.userName == auther.replace("%20", " ")
   );
+  console.log(auther.replace("%20", " "), autherPosts);
 
-  if (!tagPosts.length) {
+  if (!autherPosts.length) {
     return (
       <div className="text-center">
-        <p className="mt-10">Sorry, no posts for that keyword.</p>
+        <p className="mt-10">Sorry, no posts for by the User.</p>
         <Link href="/">Back to Home</Link>
       </div>
     );
@@ -54,17 +62,17 @@ export default async function TagPostList({ params: { tag } }: Props) {
   return (
     <div className="flex flex-col items-center p-2 mx-auto mt-4">
       <h2 className="mt-4 mb-0 text-3xl">
-        Results for: #{tag.replaceAll("%20", " ")}
+        Results for: #{auther.replace("%20", " ")}
       </h2>
       <div className="flex gap-6 mt-6">
         <section className="w-full xl:w-[900px] p-12 bg-white shadow ">
           <ul className="w-full list-none">
-            {tagPosts.map((post) => (
-              <ListItem key={post.id} post={post} />
+            {autherPosts.map((post) => (
+              <ListItem key={post.id} post={post} user={user} />
             ))}
           </ul>
         </section>
-        <AllTags />
+        <AllTag />
       </div>
     </div>
   );

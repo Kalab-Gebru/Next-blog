@@ -11,13 +11,13 @@ type Props = {
   title: string;
   date: string;
   tags: any;
+  auther?: { email: string | null; userName: string | null };
 };
 
 // type ParsedContent = string | JSX.Element;
 
-const EditorJsRenderer = ({ data, title, date, tags }: Props) => {
+const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
   // const html = EditorJsToHtml.parse(data) as ParsedContent[];
-  console.log(data.blocks);
 
   function paragraph(block: OutputBlockData<string, any>) {
     const paragraphAlign = block.data.alignment || block.data.align;
@@ -339,7 +339,17 @@ const EditorJsRenderer = ({ data, title, date, tags }: Props) => {
       })} */}
       <div className="mb-4">
         <h1 className="m-0">{title}</h1>
-        <span>{date}</span>
+        <div className="flex items-center mt-1 mb-4  text-sm text-gray-400 gap-4">
+          {auther && (
+            <Link
+              className="no-underline hover:text-black/70"
+              href={`/authers/${auther.userName}`}
+            >
+              by : {auther.email}
+            </Link>
+          )}
+          <span className="">{date}</span>
+        </div>
         <div className="flex flex-wrap gap-2 my-2">
           {tags.map((t: string, i: number) => (
             <Link

@@ -31,7 +31,13 @@ export default async function BlogNavbar() {
               >
                 Create a post
               </Link>
-              <h2 className="text-base text-gray-800">{session.user.name}</h2>
+
+              <Link
+                className="no-underline text-base text-gray-800 hover:text-black/70"
+                href={`/authers/${session.user.name}`}
+              >
+                {session.user.name}
+              </Link>
               <Image
                 src={session.user.image || profilepic}
                 alt="Picture of the author"

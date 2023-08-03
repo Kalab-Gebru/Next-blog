@@ -20,8 +20,8 @@ type createdPost = {
 };
 
 type Auther = {
-  userName: string;
-  email: string;
+  userName: string | null;
+  email: string | null;
 };
 
 type tag = {

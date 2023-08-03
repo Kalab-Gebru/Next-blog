@@ -71,3 +71,25 @@ export async function createPosts(postInput: createdPost) {
     console.log(err);
   }
 }
+
+export async function updatePosts(
+  post: any,
+  postInput: createdPost,
+  id: string
+) {
+  const postref = doc(db, "Posts", id);
+
+  try {
+    await updateDoc(postref, {
+      meta: {
+        ...post.meta,
+        title: postInput.meta.title,
+        tags: postInput.meta.tags,
+      },
+      content: { ...post.content, blocks: postInput.content.blocks },
+    });
+    console.log("post updated");
+  } catch (err) {
+    console.log(err);
+  }
+}

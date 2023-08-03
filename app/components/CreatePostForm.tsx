@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import Taginput from "../components/taginput/Taginput";
-import { createPosts } from "@/lib/posts";
+import { createPosts, updatePosts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
-import { Auther, tag } from "@/types";
-import { OutputData, OutputBlockData } from "@editorjs/editorjs";
+import { Auther, BlogPost, tag } from "@/types";
+import { OutputData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import EditorJsRenderer from "../components/EditorJsRenderer";
 import { data1 } from "./defultEditorData";
@@ -13,29 +13,40 @@ const EditorBlock = dynamic(() => import("../components/Editor"), {
   ssr: false,
 });
 
-export default function CreatePostForm(
-  User: Auther,
-  defultData: OutputBlockData
-) {
-  const [tags, setTags] = useState([]);
-  const [title, setTitle] = useState("");
+type Props = {
+  auther: Auther;
+  post?: BlogPost;
+  id?: string;
+  update: boolean;
+};
+export default function CreatePostForm({ auther, id, post, update }: Props) {
+  const defultTags = post?.meta.tags.map((d) => ({ id: d, text: d }));
+  const [tags, setTags] = useState(defultTags ? defultTags : []);
+  const [title, setTitle] = useState(post?.meta.title ? post?.meta.title : " ");
   const [editMode, setEditMode] = useState(true);
-  const [data, setData] = useState<OutputData>();
+  const [data, setData] = useState<OutputData>(post?.content);
+
+  console.log(id);
 
   function onsubmit(e: any) {
     e.preventDefault();
-    if (tags.length != 0) {
+    if (tags?.length != 0) {
       const CreatedPostData = {
         meta: {
-          auther: User,
+          auther,
           date: getFormattedDate(),
           title: title,
-          tags: tags.map((t: tag) => t.text),
+          tags: tags?.map((t: tag) => t.text),
         },
         content: data,
       };
-      console.log(data);
-      createPosts(CreatedPostData);
+      console.log(CreatedPostData);
+      {
+        update && id
+          ? updatePosts(post, CreatedPostData, id)
+          : createPosts(CreatedPostData);
+      }
+
       setTags([]);
       setTitle("");
       setData({ time: new Date().getMilliseconds(), blocks: [] });
@@ -103,7 +114,8 @@ export default function CreatePostForm(
                     data={data}
                     title={title}
                     date={getFormattedDate()}
-                    tags={tags.map((t: tag) => t.text)}
+                    tags={tags?.map((t: tag) => t.text)}
+                    auther={auther}
                   />
                 )}
               </div>

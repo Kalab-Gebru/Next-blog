@@ -7,16 +7,17 @@ export default async function AllTags() {
   if (!posts)
     return <p className="mt-10 text-center">Sorry, no tags available.</p>;
 
-  const alltags = [...posts.map((post) => post.tags).flat()];
+  const alltagsSet = new Set([...posts.map((post) => post.tags).flat()]);
+  const Uniquetags = Array.from(alltagsSet);
 
-  if (!alltags.length)
+  if (!Uniquetags.length)
     return <p className="mt-10 text-center">Sorry, no tags available.</p>;
 
   return (
     <div className="p-8 bg-white w-80 h-fit ">
       <h3 className="">All Tags:</h3>
       <div className="flex flex-wrap gap-2 my-2 text-base">
-        {alltags.map((t: string, i: number) => (
+        {Uniquetags.map((t: string, i: number) => (
           <Link
             key={i}
             href={`/tags/${t}`}

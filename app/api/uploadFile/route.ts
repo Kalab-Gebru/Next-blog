@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import { storage } from "@/firebase.config";
-import { parseForm, FormidableError } from "./parse-form";
+// import { storage } from "@/firebase.config";
+// import { parseForm, FormidableError } from "./parse-form";
 
 // Important for NextJS!
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
 
 type Data = {
   success: number;
@@ -23,7 +23,7 @@ type Error = {
 };
 
 export async function POST(
-  request: NextApiRequest,
+  request: NextRequest,
   res: NextApiResponse<Data | Error>
 ) {
   // const secret = request.nextUrl.searchParams.get("url");
@@ -32,6 +32,7 @@ export async function POST(
 
   try {
     // const { fields, files } = await parseForm(request);
+    // const body = await request.json();
 
     // console.log({ fields, files });
 
