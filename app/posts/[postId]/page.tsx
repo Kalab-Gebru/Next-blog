@@ -57,13 +57,14 @@ export default async function Post({ params: { postId } }: Props) {
   ));
 
   return (
-    <div className="w-full xl:w-[900px] mx-auto bg-white shadow p-16 mt-4 divide-y-2">
+    <div className="w-full xl:w-[900px] mx-auto bg-white dark:bg-slate-700 shadow p-16 mt-4 divide-y-2">
       <article className="mb-8">
         <EditorJsRenderer
           data={content}
           title={meta.title}
           date={meta.date}
           tags={meta.tags}
+          coverImg={meta.imgURL}
           auther={meta.auther}
         />
       </article>

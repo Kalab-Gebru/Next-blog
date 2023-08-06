@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Meta, Auther } from "@/types";
+import { BiEdit } from "react-icons/bi";
 
 type Props = {
   post: Meta;
@@ -7,21 +9,34 @@ type Props = {
 };
 
 export default function ListItem({ post, user }: Props) {
-  const { id, title, date, tags, auther } = post;
+  const { id, title, date, tags, auther, imgURL } = post;
 
   return (
-    <li className="grid grid-cols-12 gap-4 p-4 my-4 text-3xl border rounded-md">
-      <div className="h-full col-span-4 bg-gray-400 rounded"></div>
-      <div className="relative flex flex-col col-span-8">
-        <Link
-          className="no-underline hover:text-black/70"
-          href={`/posts/${id}`}
-        >
-          {title}
-        </Link>
-        <div className="flex mt-1 text-sm text-gray-400 gap-4">
+    <li className="flex md:flex-row flex-col gap-4 p-4 my-4 border dark:border-slate-500 rounded-md">
+      {imgURL ? (
+        <Image
+          src={imgURL}
+          alt={imgURL}
+          className="md:w-64 w-full aspect-2 border rounded"
+          width={300}
+          height={200}
+          style={{ objectFit: "cover" }}
+        />
+      ) : (
+        <div className="md:w-64 w-full aspect-2 bg-gray-400 rounded" />
+      )}
+      <div className="relative flex flex-col justify-start grow ">
+        <div className="">
           <Link
-            className="no-underline hover:text-black/70"
+            className="no-underline hover:text-black/70 dark:hover:text-white/80  text-4xl "
+            href={`/posts/${id}`}
+          >
+            {title}
+          </Link>
+        </div>
+        <div className="flex md:flex-row flex-col mt-1 text-gray-400 md:gap-4">
+          <Link
+            className="no-underline hover:text-black/70 dark:hover:text-gray-300"
             href={`/authers/${auther.userName}`}
           >
             by : {auther.email}
@@ -29,17 +44,17 @@ export default function ListItem({ post, user }: Props) {
           <p>{date}</p>
         </div>
 
-        <p className="my-2 text-sm">
+        {/* <p className="my-2 text-sm">
           Each size modifier comes with a baked in max-width designed to keep
           the content as readable as possible. This isn’t always what you want
           though.
-        </p>
-        <div className="flex flex-wrap gap-2 my-2 text-base">
+        </p> */}
+        <div className="flex flex-wrap gap-2 my-2">
           {tags.map((t: string, i: number) => (
             <Link
               key={i}
               href={`/tags/${t}`}
-              className="px-2 no-underline bg-gray-200 border rounded"
+              className="px-2 no-underline bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 border dark:border-slate-500 rounded"
             >
               {t}
             </Link>
@@ -48,9 +63,9 @@ export default function ListItem({ post, user }: Props) {
         {auther.userName == user?.userName ? (
           <Link
             href={`/editPost/${id}`}
-            className="absolute right-0 top-0 py-1 px-2 bg-green-300 text-sm"
+            className="absolute right-0 top-0 hover:text-blue-500"
           >
-            edit
+            <BiEdit size={24} />
           </Link>
         ) : null}
       </div>

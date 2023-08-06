@@ -85,6 +85,7 @@ export async function updatePosts(
         ...post.meta,
         title: postInput.meta.title,
         tags: postInput.meta.tags,
+        imgURL: postInput.meta.imgURL,
       },
       content: { ...post.content, blocks: postInput.content.blocks },
     });

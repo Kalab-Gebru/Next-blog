@@ -2,7 +2,7 @@ import { options } from "../../api/auth/[...nextauth]/options";
 import { getPostById } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import CreatePostForm from "../../components/CreatePostForm";
+import EditPostForm from "../../components/EditPostForm";
 import { redirect } from "next/navigation";
 
 type Props = {
@@ -27,12 +27,12 @@ export default async function EditPost({ params: { postId } }: Props) {
   }
 
   return (
-    <div className="w-full xl:w-[900px] text-black bg-gray-50">
-      <CreatePostForm
+    <div className="w-full xl:w-[900px] text-black dark:text-white bg-gray-50 dark:bg-slate-700">
+      <EditPostForm
         post={post}
         id={post.meta.id}
         auther={User}
-        update={true}
+        imgURL={post.meta.imgURL}
       />
     </div>
   );

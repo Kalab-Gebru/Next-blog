@@ -11,12 +11,20 @@ type Props = {
   title: string;
   date: string;
   tags: any;
+  coverImg?: string;
   auther?: { email: string | null; userName: string | null };
 };
 
 // type ParsedContent = string | JSX.Element;
 
-const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
+const EditorJsRenderer = ({
+  data,
+  title,
+  date,
+  tags,
+  auther,
+  coverImg,
+}: Props) => {
   // const html = EditorJsToHtml.parse(data) as ParsedContent[];
 
   function paragraph(block: OutputBlockData<string, any>) {
@@ -33,17 +41,17 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
   function header(block: OutputBlockData<string, any>) {
     switch (block.data.level) {
       case 1:
-        return <h1>{block.data.text}</h1>;
+        return <h1 dangerouslySetInnerHTML={{ __html: block.data.text }}></h1>;
       case 2:
-        return <h2>{block.data.text}</h2>;
+        return <h2 dangerouslySetInnerHTML={{ __html: block.data.text }}></h2>;
       case 3:
-        return <h3>{block.data.text}</h3>;
+        return <h3 dangerouslySetInnerHTML={{ __html: block.data.text }}></h3>;
       case 4:
-        return <h4>{block.data.text}</h4>;
+        return <h4 dangerouslySetInnerHTML={{ __html: block.data.text }}></h4>;
       case 5:
-        return <h5>{block.data.text}</h5>;
+        return <h5 dangerouslySetInnerHTML={{ __html: block.data.text }}></h5>;
       case 6:
-        return <h6>{block.data.text}</h6>;
+        return <h6 dangerouslySetInnerHTML={{ __html: block.data.text }}></h6>;
     }
   }
 
@@ -53,26 +61,53 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
 
   function warning(block: OutputBlockData<string, any>) {
     return (
-      <div className="grid w-full grid-cols-12 gap-2 px-6 py-4 my-2 text-red-500 bg-orange-300 rounded-md">
-        <div className="flex justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-8 h-8 "
-          >
-            <path
-              fillRule="evenodd"
-              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <h3 className="col-span-11 m-0 font-medium text-red-500">
-          {block.data.title}
-        </h3>
+      // <div className="grid w-full grid-cols-12 gap-2 px-6 py-4 my-2 text-red-500 bg-orange-300 rounded-md">
+      //   <div className="flex justify-center">
+      //     <svg
+      //       xmlns="http://www.w3.org/2000/svg"
+      //       viewBox="0 0 24 24"
+      //       fill="currentColor"
+      //       className="w-8 h-8 "
+      //     >
+      //       <path
+      //         fillRule="evenodd"
+      //         d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+      //         clipRule="evenodd"
+      //       />
+      //     </svg>
+      //   </div>
+      //   <h3 className="col-span-11 m-0 font-medium text-red-500">
+      //     {block.data.title}
+      //   </h3>
 
-        <p className="col-span-11 col-start-2 m-0">{block.data.message}</p>
+      //   <p className="col-span-11 col-start-2 m-0">{block.data.message}</p>
+      // </div>
+      <div
+        className="bg-red-50 border border-red-200 rounded-md p-4"
+        role="alert"
+      >
+        <div className="flex items-start">
+          <div className="flex-shrink-0">
+            <svg
+              className="h-4 w-4 text-red-400 mt-0.5"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+            </svg>
+          </div>
+          <div className="ml-4">
+            <h3 className="text-sm text-red-800 font-semibold mt-0">
+              {block.data.title}
+            </h3>
+            <div className="mt-1 text-sm text-red-700">
+              {block.data.message}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -87,7 +122,7 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
 
   function linkTool(block: OutputBlockData<string, any>) {
     return (
-      <div className="rounded shadow-md border p-8 bg-white">
+      <div className="rounded shadow-md border p-8 bg-white dark:bg-slate-500">
         <div className="flex gap-4">
           <div className="">
             <h3 className="mt-0">{block.data.meta.title}</h3>
@@ -121,7 +156,7 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
 
   function code(block: OutputBlockData<string, any>) {
     return (
-      <pre>
+      <pre className="max-h-[800px] overflow-scroll">
         <code>${block.data.code}</code>
       </pre>
     );
@@ -327,7 +362,7 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
   }
   return (
     //✔️ It's important to add key={data.time} here to re-render based on the latest data.
-    <div className="prose divide-y-2" key={data.time}>
+    <div className="prose  dark:prose-invert divide-y-2" key={data.time}>
       {/* {html.map((item, index) => {
         if (typeof item === "string") {
           return (
@@ -337,12 +372,13 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
         }
         return item;
       })} */}
+
       <div className="mb-4">
-        <h1 className="m-0">{title}</h1>
+        <h1 className="m-0 text-black dark:text-white">{title}</h1>
         <div className="flex items-center mt-1 mb-4  text-sm text-gray-400 gap-4">
           {auther && (
             <Link
-              className="no-underline hover:text-black/70"
+              className="no-underline text-black dark:text-white hover:text-black/70 dark:hover:text-gray-300"
               href={`/authers/${auther.userName}`}
             >
               by : {auther.email}
@@ -355,14 +391,26 @@ const EditorJsRenderer = ({ data, title, date, tags, auther }: Props) => {
             <Link
               key={i}
               href={`/tags/${t}`}
-              className="px-2 no-underline bg-gray-200 border rounded"
+              className="text-black dark:text-white px-2 no-underline bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 border dark:border-slate-500 rounded"
             >
               {t}
             </Link>
           ))}
         </div>
       </div>
-      <div className="">{...data.blocks.map((b) => element(b))}</div>
+      <div>
+        {coverImg && (
+          <Image
+            src={coverImg}
+            alt={coverImg}
+            className="border rounded w-full aspect-2"
+            width={300}
+            height={300}
+            style={{ objectFit: "cover" }}
+          />
+        )}
+        <div className="">{...data.blocks.map((b) => element(b))}</div>
+      </div>
     </div>
   );
 };

@@ -9,8 +9,8 @@ export default async function CreatePost() {
     email: session?.user?.email || null,
   };
   return (
-    <div className="w-full xl:w-[900px] text-black bg-gray-50">
-      <CreatePostForm auther={User} update={false} />
+    <div className="w-full xl:w-[900px] text-black dark:text-white bg-gray-50 dark:bg-slate-700">
+      <CreatePostForm auther={User} />
     </div>
   );
 }

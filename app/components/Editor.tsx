@@ -40,7 +40,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
     };
   }, []);
 
-  return <div className="pt-6 prose mx-16" id={holder} />;
+  return <div className="pt-6 prose dark:prose-invert mx-16" id={holder} />;
 };
 
 export default memo(EditorBlock);

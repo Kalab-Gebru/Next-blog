@@ -14,14 +14,14 @@ export default async function AllTags() {
     return <p className="mt-10 text-center">Sorry, no tags available.</p>;
 
   return (
-    <div className="p-8 bg-white w-80 h-fit ">
+    <div className="hidden xl:block p-8 bg-white dark:bg-slate-700 w-80 h-fit ">
       <h3 className="">All Tags:</h3>
       <div className="flex flex-wrap gap-2 my-2 text-base">
         {Uniquetags.map((t: string, i: number) => (
           <Link
             key={i}
             href={`/tags/${t}`}
-            className="px-2 no-underline bg-gray-200 border rounded"
+            className="px-2 no-underline bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 border dark:hover:bg-slate-500 dark:border-slate-500 rounded"
           >
             {t}
           </Link>

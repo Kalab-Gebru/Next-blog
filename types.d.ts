@@ -5,6 +5,7 @@ type Meta = {
   title: string;
   auther: Auther;
   date: string;
+  imgURL: string;
   tags: string[];
 };
 
@@ -15,7 +16,13 @@ type BlogPost = {
 };
 
 type createdPost = {
-  meta: { auther: Auther; date: string; title: string; tags: string[] };
+  meta: {
+    auther: Auther;
+    date: string;
+    title: string;
+    tags: string[];
+    imgURL: string;
+  };
   content: any;
 };
 

@@ -1,23 +1,29 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Taginput from "../components/taginput/Taginput";
+import Taginput from "./taginput/Taginput";
 import { createPosts, updatePosts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Auther, BlogPost, createdPost, tag } from "@/types";
 import { OutputData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
-import EditorJsRenderer from "../components/EditorJsRenderer";
+import EditorJsRenderer from "./EditorJsRenderer";
 // import { data1 } from "./defultEditorData";
 import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 import UploadImageToStorage from "./UploadImg";
 
-const EditorBlock = dynamic(() => import("../components/Editor"), {
+const notify = () => toast.success("posted successfully.");
+
+const EditorBlock = dynamic(() => import("./Editor"), {
   ssr: false,
 });
 
 type Props = {
   auther: Auther;
+  post: BlogPost;
+  id: string;
+  imgURL: string;
 };
 /**
  * Renders a form for creating or updating a blog post.
@@ -25,69 +31,70 @@ type Props = {
  * @param {Props} props - The props object containing the post data, author information, and optional post ID.
  * @returns {JSX.Element} - The rendered form for creating or updating a blog post.
  */
-export default function CreatePostForm({ auther }: Props): JSX.Element {
-  const [tags, setTags] = useState([]);
-  const [title, setTitle] = useState(" ");
-  const [downloadURL, setDownloadURL] = useState("");
+export default function EditPostForm({
+  auther,
+  id,
+  post,
+  imgURL,
+}: Props): JSX.Element {
+  const defultTags = post?.meta.tags.map((d) => ({ id: d, text: d }));
+  const [tags, setTags] = useState(defultTags);
+  const [title, setTitle] = useState(post.meta.title);
+  const [downloadURL, setDownloadURL] = useState(imgURL);
   const [editMode, setEditMode] = useState(true);
-  const [data, setData] = useState<OutputData>();
+  const [data, setData] = useState<OutputData>(post.content);
 
   function onsubmit(e: any) {
     e.preventDefault();
     if (tags?.length != 0) {
-      if (downloadURL != "") {
-        const CreatedPostData: createdPost = {
-          meta: {
-            auther,
-            date: getFormattedDate(),
-            title: title,
-            tags: tags?.map((t: tag) => t.text),
-            imgURL: downloadURL,
-          },
-          content: data,
-        };
-        console.log(CreatedPostData);
+      const CreatedPostData: createdPost = {
+        meta: {
+          auther,
+          date: getFormattedDate(),
+          title: title,
+          tags: tags?.map((t: tag) => t.text),
+          imgURL: downloadURL,
+        },
+        content: data,
+      };
+      console.log(CreatedPostData);
 
-        try {
-          createPosts(CreatedPostData);
-          toast.success("posted successfully.");
-        } catch (error) {
-          toast.error("Failed to create post. Please try again.");
-        }
-
-        setTags([]);
-        setTitle("");
-        setData({ time: new Date().getMilliseconds(), blocks: [] });
-        setEditMode((pre) => false);
-        setDownloadURL("");
-        setEditMode((pre) => true);
-      } else {
-        toast.error("there is no uploaded image");
+      try {
+        updatePosts(post, CreatedPostData, id);
+        toast.success("posted successfully.");
+        redirect(`/posts/${id}`);
+      } catch (error) {
+        toast.error("Failed to update post. Please try again.");
       }
+
+      setTags([]);
+      setTitle("");
+      setData({ time: new Date().getMilliseconds(), blocks: [] });
+      setEditMode(true);
     } else {
       toast.error("Select at least one tag");
     }
   }
 
   return (
-    <div className="p-4 pb-6 text-black dark:text-white">
+    <div className="p-4 pb-6">
       <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl">Create post page</h1>
+        <h1 className="text-2xl text-gray-900">Edit post page</h1>
         <button
           onClick={() => setEditMode((pre) => !pre)}
-          className="px-4 py-2 text-white bg-gray-700 dark:bg-slate-600 border dark:border-slate-500 rounded"
+          className="px-4 py-2 text-white bg-gray-700 rounded"
         >
           Toggle Edit Mode
         </button>
       </div>
       <form
         onSubmit={onsubmit}
-        className="flex flex-col justify-between w-full h-full text-black dark:text-white"
+        className="flex flex-col justify-between w-full h-full text-gray-800"
       >
         <div className="mb-4">
           {editMode ? (
             <>
-              <div className="p-4 bg-gray-100 dark:bg-slate-600">
+              <div className="p-4 bg-gray-100">
                 <div className="my-2">
                   <label
                     htmlFor="title"
@@ -114,23 +121,24 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
                   </label>
                   {/* {console.log(tags)} */}
                   <Taginput setTags={setTags} tags={tags} />
-                </div>
-                <div className="mt-4">
-                  <UploadImageToStorage setURL={setDownloadURL} />
-                  {downloadURL && (
-                    <div className="mt-4 flex flex-col gap-2">
-                      <Image
-                        src={downloadURL}
-                        alt={downloadURL}
-                        className="border rounded"
-                        width={200}
-                        height={200}
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                  )}
+                  <div className="mt-4">
+                    <UploadImageToStorage setURL={setDownloadURL} />
+                    {downloadURL && (
+                      <div className="mt-4 flex flex-col gap-2">
+                        <Image
+                          src={downloadURL}
+                          alt={downloadURL}
+                          className="border rounded"
+                          width={200}
+                          height={200}
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+
               <EditorBlock
                 data={data}
                 onChange={setData}
