@@ -21,21 +21,21 @@ export const EDITOR_JS_TOOLS = {
   list: List,
   warning: Warning,
   code: Code,
-  linkTool: {
-    class: LinkTool,
-    config: {
-      endpoint: "http://localhost:3000/api/fetchUrlMeta", // Your backend endpoint for url data fetching,
-    },
-  },
-  image: {
-    class: ImageTool,
-    config: {
-      endpoints: {
-        byFile: "http://localhost:3000/api/uploadFile", // Your backend file uploader endpoint
-        byUrl: "http://localhost:3000/api/fetchUrl", // Your endpoint that provides uploading by Url
-      },
-    },
-  },
+  // linkTool: {
+  //   class: LinkTool,
+  //   config: {
+  //     endpoint: "http://localhost:3000/api/fetchUrlMeta", // Your backend endpoint for url data fetching,
+  //   },
+  // },
+  // image: {
+  //   class: ImageTool,
+  //   config: {
+  //     endpoints: {
+  //       byFile: "http://localhost:3000/api/uploadFile", // Your backend file uploader endpoint
+  //       byUrl: "http://localhost:3000/api/fetchUrl", // Your endpoint that provides uploading by Url
+  //     },
+  //   },
+  // },
   raw: Raw,
   header: Header,
   quote: Quote,
