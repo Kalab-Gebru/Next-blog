@@ -1,11 +1,14 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import AuthProvider from "./context/AuthProvider";
 import TProvider from "./context/ThemeProvider";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kalab's Blog",
@@ -19,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-100 dark:bg-slate-600 min-h-screen flex flex-col justify-between">
+      <body
+        className={`${inter.className} flex flex-col justify-between min-h-screen bg-white dark:bg-slate-900`}
+      >
         <TProvider>
           <AuthProvider>
             <div className="pb-12">

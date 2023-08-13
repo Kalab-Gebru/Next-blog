@@ -75,7 +75,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
         <h1 className="text-2xl">Create post page</h1>
         <button
           onClick={() => setEditMode((pre) => !pre)}
-          className="px-4 py-2 text-white bg-gray-700 dark:bg-slate-600 border dark:border-slate-500 rounded"
+          className="px-4 py-2 text-white bg-gray-700 border rounded dark:bg-slate-600 dark:border-slate-500"
         >
           Toggle Edit Mode
         </button>
@@ -87,7 +87,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
         <div className="mb-4">
           {editMode ? (
             <>
-              <div className="p-4 bg-gray-100 dark:bg-slate-600">
+              <div className="p-4 bg-gray-100 rounded-lg dark:bg-slate-600">
                 <div className="my-2">
                   <label
                     htmlFor="title"
@@ -118,7 +118,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
                 <div className="mt-4">
                   <UploadImageToStorage setURL={setDownloadURL} />
                   {downloadURL && (
-                    <div className="mt-4 flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 mt-4">
                       <Image
                         src={downloadURL}
                         alt={downloadURL}

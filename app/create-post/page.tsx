@@ -1,15 +1,17 @@
 import { options } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
 import CreatePostForm from "../components/CreatePostForm";
+import { Auther } from "@/types";
 
 export default async function CreatePost() {
   const session = await getServerSession(options);
-  const User = {
+  const User: Auther = {
     userName: session?.user?.name || null,
+    img: session?.user?.image || null,
     email: session?.user?.email || null,
   };
   return (
-    <div className="w-full xl:w-[900px] text-black dark:text-white bg-gray-50 dark:bg-slate-700">
+    <div className="w-full xl:w-[900px] text-black dark:text-white">
       <CreatePostForm auther={User} />
     </div>
   );

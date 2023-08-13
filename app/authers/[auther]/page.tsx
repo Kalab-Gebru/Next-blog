@@ -4,6 +4,7 @@ import { options } from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import AllTag from "../../components/AllTags";
+import { Auther } from "@/types";
 
 export const revalidate = 86400;
 
@@ -37,8 +38,9 @@ export function generateMetadata({ params: { auther } }: Props) {
 export default async function autherPostList({ params: { auther } }: Props) {
   const posts = await getPostsMeta(); //deduped!
   const session = await getServerSession(options);
-  const user = {
+  const user: Auther = {
     userName: session?.user?.name || null,
+    img: session?.user?.image || null,
     email: session?.user?.email || null,
   };
 
@@ -60,20 +62,30 @@ export default async function autherPostList({ params: { auther } }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center p-2 mx-auto mt-4">
-      <h2 className="mt-4 mb-0 text-3xl">
-        Results for: #{auther.replace("%20", " ")}
+    // <div className="flex flex-col items-center p-2 mx-auto mt-4">
+    //   <h2 className="mt-4 mb-0 text-3xl">
+    //     Results for: @{auther.replace("%20", " ")}
+    //   </h2>
+    //   <div className="flex gap-6 mt-6">
+    //     <section className="w-full xl:w-[900px] px-12 py-6">
+    //       <ul className="w-full list-none">
+    //         {autherPosts.map((post) => (
+    //           <ListItem key={post.id} post={post} user={user} />
+    //         ))}
+    //       </ul>
+    //     </section>
+    //     <AllTag />
+    //   </div>
+    // </div>
+    <section className="w-full xl:w-[900px] px-12 py-6 mx-auto">
+      <h2 className="pb-2 text-4xl">
+        Results for: @{auther.replace("%20", " ")}
       </h2>
-      <div className="flex gap-6 mt-6">
-        <section className="w-full xl:w-[900px] px-12 py-6 bg-white dark:bg-slate-700 shadow ">
-          <ul className="w-full list-none">
-            {autherPosts.map((post) => (
-              <ListItem key={post.id} post={post} user={user} />
-            ))}
-          </ul>
-        </section>
-        <AllTag />
-      </div>
-    </div>
+      <ul className="w-full gap-4 p-0 my-6 list-none">
+        {posts.map((post) => (
+          <ListItem key={post.id} post={post} user={user} />
+        ))}
+      </ul>
+    </section>
   );
 }

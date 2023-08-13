@@ -52,20 +52,15 @@ export default async function TagPostList({ params: { tag } }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center p-2 mx-auto mt-4">
-      <h2 className="mt-4 mb-0 text-3xl">
+    <section className="w-full xl:w-[900px] px-12 py-6 mx-auto">
+      <h2 className="pb-2 text-4xl ">
         Results for: #{tag.replaceAll("%20", " ")}
       </h2>
-      <div className="flex gap-6 mt-6">
-        <section className="w-full xl:w-[900px] px-12 py-6 bg-white dark:bg-slate-700 shadow ">
-          <ul className="w-full list-none">
-            {tagPosts.map((post) => (
-              <ListItem key={post.id} post={post} />
-            ))}
-          </ul>
-        </section>
-        <AllTags />
-      </div>
-    </div>
+      <ul className="w-full gap-4 p-0 my-6 list-none">
+        {posts.map((post) => (
+          <ListItem key={post.id} post={post} />
+        ))}
+      </ul>
+    </section>
   );
 }

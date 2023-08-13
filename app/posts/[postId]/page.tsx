@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import "highlight.js/styles/github-dark.css";
 import EditorJsRenderer from "@/app/components/EditorJsRenderer";
+import StickySocialShare from "@/app/components/StickySocialShare";
+import SpyScroll from "@/app/components/SpyScroll";
 
 export const revalidate = 86400;
 
@@ -30,13 +32,14 @@ export async function staticParams() {
 }
 
 export async function generateMetadata({ params: { postId } }: Props) {
-  const post = await getPostById(postId); //deduped!
+  const postData = await getPostById(postId); //deduped!
 
-  if (!post) {
+  if (!postData) {
     return {
       title: "Post Not Found",
     };
   }
+  const { post } = postData;
 
   return {
     title: post.meta.title,
@@ -44,9 +47,11 @@ export async function generateMetadata({ params: { postId } }: Props) {
 }
 
 export default async function Post({ params: { postId } }: Props) {
-  const post = await getPostById(postId); //deduped!
+  const postData = await getPostById(postId); //deduped!
 
-  if (!post) notFound();
+  if (!postData) notFound();
+
+  const { post, titles } = postData;
 
   const { meta, content } = post;
 
@@ -57,24 +62,26 @@ export default async function Post({ params: { postId } }: Props) {
   ));
 
   return (
-    <div className="w-full xl:w-[900px] mx-auto bg-white dark:bg-slate-700 shadow p-16 mt-4 divide-y-2">
-      <article className="mb-8">
-        <EditorJsRenderer
-          data={content}
-          title={meta.title}
-          date={meta.date}
-          tags={meta.tags}
-          coverImg={meta.imgURL}
-          auther={meta.auther}
-        />
-      </article>
-      {/* <section>
-        <h3>Related:</h3>
-        <div className="flex flex-row gap-4">{tags}</div>
-      </section> */}
-      <p className="py-4">
-        <Link href="/">← Back to home</Link>
-      </p>
+    <div className="">
+      <div className="relative flex justify-center gap-6 mx-auto mt-8">
+        <StickySocialShare title={meta.title} />
+        <div className="w-full xl:w-[900px]  p-6 lg:p-16 pt-0 divide-y-2">
+          <article className="mb-8">
+            <EditorJsRenderer
+              data={content}
+              title={meta.title}
+              date={meta.date}
+              tags={meta.tags}
+              coverImg={meta.imgURL}
+              auther={meta.auther}
+            />
+          </article>
+          <p className="py-4">
+            <Link href="/">← Back to home</Link>
+          </p>
+        </div>
+        <SpyScroll titles={titles} />
+      </div>
     </div>
   );
 }

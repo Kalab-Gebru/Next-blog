@@ -1,6 +1,8 @@
 import { OutputData, OutputBlockData } from "@editorjs/editorjs";
 import Link from "next/link";
 import Image from "next/image";
+import profilepic from "public/images/profile-photo-640x640.png";
+import { Auther } from "@/types";
 
 //use require since editorjs-html doesn't have types
 // const editorJsHtml = require("editorjs-html");
@@ -12,7 +14,7 @@ type Props = {
   date: string;
   tags: any;
   coverImg?: string;
-  auther?: { email: string | null; userName: string | null };
+  auther?: Auther;
 };
 
 // type ParsedContent = string | JSX.Element;
@@ -38,20 +40,50 @@ const EditorJsRenderer = ({
     );
   }
 
-  function header(block: OutputBlockData<string, any>) {
+  function header(block: OutputBlockData<string, any>, index: number) {
     switch (block.data.level) {
       case 1:
-        return <h1 dangerouslySetInnerHTML={{ __html: block.data.text }}></h1>;
+        return (
+          <h1
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h1>
+        );
       case 2:
-        return <h2 dangerouslySetInnerHTML={{ __html: block.data.text }}></h2>;
+        return (
+          <h2
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h2>
+        );
       case 3:
-        return <h3 dangerouslySetInnerHTML={{ __html: block.data.text }}></h3>;
+        return (
+          <h3
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h3>
+        );
       case 4:
-        return <h4 dangerouslySetInnerHTML={{ __html: block.data.text }}></h4>;
+        return (
+          <h4
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h4>
+        );
       case 5:
-        return <h5 dangerouslySetInnerHTML={{ __html: block.data.text }}></h5>;
+        return (
+          <h5
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h5>
+        );
       case 6:
-        return <h6 dangerouslySetInnerHTML={{ __html: block.data.text }}></h6>;
+        return (
+          <h6
+            id={index.toString()}
+            dangerouslySetInnerHTML={{ __html: block.data.text }}
+          ></h6>
+        );
     }
   }
 
@@ -83,7 +115,7 @@ const EditorJsRenderer = ({
       //   <p className="col-span-11 col-start-2 m-0">{block.data.message}</p>
       // </div>
       <div
-        className="bg-red-50 border border-red-200 rounded-md p-4"
+        className="p-4 border border-red-200 rounded-md bg-red-50"
         role="alert"
       >
         <div className="flex items-start">
@@ -100,7 +132,7 @@ const EditorJsRenderer = ({
             </svg>
           </div>
           <div className="ml-4">
-            <h3 className="text-sm text-red-800 font-semibold mt-0">
+            <h3 className="mt-0 text-sm font-semibold text-red-800">
               {block.data.title}
             </h3>
             <div className="mt-1 text-sm text-red-700">
@@ -122,7 +154,7 @@ const EditorJsRenderer = ({
 
   function linkTool(block: OutputBlockData<string, any>) {
     return (
-      <div className="rounded shadow-md border p-8 bg-white dark:bg-slate-500">
+      <div className="p-8 bg-white border rounded shadow-md dark:bg-slate-500">
         <div className="flex gap-4">
           <div className="">
             <h3 className="mt-0">{block.data.meta.title}</h3>
@@ -132,7 +164,7 @@ const EditorJsRenderer = ({
             <Image
               src={block.data.meta.image.url}
               alt={block.data.meta.site_name}
-              className="border w-full h-fit"
+              className="w-full border h-fit"
               width={70}
               height={70}
               priority
@@ -258,16 +290,15 @@ const EditorJsRenderer = ({
     );
   }
 
-  function image(block: OutputBlockData<string, any>) {
+  function simpleImage(block: OutputBlockData<string, any>) {
     let caption = block.data.caption ? block.data.caption : "Image";
     return (
-      <img
-        src={
-          block.data.file && block.data.file.url
-            ? block.data.file.url
-            : block.data.url
-        }
+      <Image
+        src={block.data.url}
         alt={caption}
+        className="w-full rounded aspect-2 dark:border-slate-600"
+        width={1200}
+        height={720}
       />
     );
   }
@@ -330,12 +361,12 @@ const EditorJsRenderer = ({
     );
   }
 
-  function element(block: OutputBlockData<string, any>) {
+  function element(block: OutputBlockData<string, any>, index: number) {
     switch (block.type) {
       case "paragraph":
         return paragraph(block);
       case "header":
-        return header(block);
+        return header(block, index);
       case "list":
         return list(block);
       case "checklist":
@@ -352,8 +383,8 @@ const EditorJsRenderer = ({
         return raw(block);
       case "code":
         return code(block);
-      case "image":
-        return image(block);
+      case "simpleImage":
+        return simpleImage(block);
       case "embed":
         return embed(block);
       case "table":
@@ -362,7 +393,10 @@ const EditorJsRenderer = ({
   }
   return (
     //✔️ It's important to add key={data.time} here to re-render based on the latest data.
-    <div className="prose  dark:prose-invert divide-y-2" key={data.time}>
+    <div
+      className="prose-2xl divide-y-2 lg:prose dark:prose-invert"
+      key={data.time}
+    >
       {/* {html.map((item, index) => {
         if (typeof item === "string") {
           return (
@@ -374,24 +408,41 @@ const EditorJsRenderer = ({
       })} */}
 
       <div className="mb-4">
-        <h1 className="m-0 text-black dark:text-white">{title}</h1>
-        <div className="flex items-center mt-1 mb-4  text-sm text-gray-400 gap-4">
+        <h1 className="m-0 mt-4 text-black dark:text-white">{title}</h1>
+        <div className="mt-2 mb-4 text-2xl lg:text-sm ">
           {auther && (
-            <Link
-              className="no-underline text-black dark:text-white hover:text-black/70 dark:hover:text-gray-300"
-              href={`/authers/${auther.userName}`}
-            >
-              by : {auther.email}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                className="flex items-center gap-2 "
+                href={`/authers/${auther.userName}`}
+              >
+                <Image
+                  src={auther.img ? auther.img : profilepic}
+                  alt="Picture of the author"
+                  className="border rounded-full dark:border-slate-600"
+                  width={35}
+                  height={35}
+                />
+              </Link>
+              <div className="flex flex-col">
+                <Link
+                  className="text-black no-underline dark:text-white hover:text-black/70 dark:hover:text-gray-300"
+                  href={`/authers/${auther.userName}`}
+                >
+                  {" "}
+                  {auther.email}{" "}
+                </Link>
+                <span className="text-gray-400">{date}</span>
+              </div>
+            </div>
           )}
-          <span className="">{date}</span>
         </div>
         <div className="flex flex-wrap gap-2 my-2">
           {tags.map((t: string, i: number) => (
             <Link
               key={i}
               href={`/tags/${t}`}
-              className="text-black dark:text-white px-2 no-underline bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 border dark:border-slate-500 rounded"
+              className="px-2 text-black no-underline border rounded dark:text-white hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 dark:border-slate-500"
             >
               {t}
             </Link>
@@ -399,17 +450,21 @@ const EditorJsRenderer = ({
         </div>
       </div>
       <div>
-        {coverImg && (
-          <Image
-            src={coverImg}
-            alt={coverImg}
-            className="border rounded w-full aspect-2"
-            width={300}
-            height={300}
-            style={{ objectFit: "cover" }}
-          />
-        )}
-        <div className="">{...data.blocks.map((b) => element(b))}</div>
+        <div className="">
+          {coverImg && (
+            <Image
+              src={coverImg}
+              alt={coverImg}
+              className="w-full border rounded aspect-2"
+              width={300}
+              height={300}
+              style={{ objectFit: "cover" }}
+            />
+          )}
+        </div>
+        <div className="">
+          {...data.blocks.map((b, index) => element(b, index))}
+        </div>
       </div>
     </div>
   );

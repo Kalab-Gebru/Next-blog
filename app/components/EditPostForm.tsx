@@ -79,22 +79,22 @@ export default function EditPostForm({
   return (
     <div className="p-4 pb-6">
       <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl text-gray-900">Edit post page</h1>
+        <h1 className="text-2xl">Edit post page</h1>
         <button
           onClick={() => setEditMode((pre) => !pre)}
-          className="px-4 py-2 text-white bg-gray-700 rounded"
+          className="px-4 py-2 text-white bg-gray-700 border rounded dark:bg-slate-600 dark:border-slate-500"
         >
           Toggle Edit Mode
         </button>
       </div>
       <form
         onSubmit={onsubmit}
-        className="flex flex-col justify-between w-full h-full text-gray-800"
+        className="flex flex-col justify-between w-full h-full text-black dark:text-white"
       >
         <div className="mb-4">
           {editMode ? (
             <>
-              <div className="p-4 bg-gray-100">
+              <div className="p-4 bg-gray-100 rounded-lg dark:bg-slate-600">
                 <div className="my-2">
                   <label
                     htmlFor="title"
@@ -124,7 +124,7 @@ export default function EditPostForm({
                   <div className="mt-4">
                     <UploadImageToStorage setURL={setDownloadURL} />
                     {downloadURL && (
-                      <div className="mt-4 flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 mt-4">
                         <Image
                           src={downloadURL}
                           alt={downloadURL}

@@ -18,9 +18,17 @@ const ThemeSwitcher = () => {
 
   const icon =
     theme == "light" ? (
-      <MdOutlineDarkMode onClick={() => setTheme("dark")} size={24} />
+      <MdOutlineDarkMode
+        onClick={() => setTheme("dark")}
+        size={24}
+        className="w-10 h-10 md:w-6 md:h-6"
+      />
     ) : (
-      <MdOutlineLightMode onClick={() => setTheme("light")} size={24} />
+      <MdOutlineLightMode
+        onClick={() => setTheme("light")}
+        size={24}
+        className="w-10 h-10 md:w-6 md:h-6"
+      />
     );
 
   return <div className="flex">{icon}</div>;

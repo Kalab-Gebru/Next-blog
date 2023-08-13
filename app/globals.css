@@ -25,3 +25,23 @@ h6.ce-header {
 .ce-toolbar__content {
   max-width: unset;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  scroll-margin-top: 100px;
+}
+
+.twolines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

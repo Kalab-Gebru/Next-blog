@@ -8,16 +8,22 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
-import { BlogPost, Meta, createdPost } from "@/types";
+import {
+  BlogPost,
+  BlogPostAndHeading,
+  Meta,
+  createdPost,
+  headings,
+} from "@/types";
 
 export async function getPostById(
   postId: string
-): Promise<BlogPost | undefined> {
+): Promise<BlogPostAndHeading | undefined> {
   const postref = doc(db, "Posts", postId);
 
   try {
     const data = await getDoc(postref);
-    console.log(data.data());
+    // console.log(data.data());
     const blogPostObj: BlogPost = {
       meta: {
         id: data.id,
@@ -26,7 +32,25 @@ export async function getPostById(
       content: data.data()?.content,
     };
 
-    return blogPostObj;
+    const titles: headings[] = blogPostObj.content.blocks
+      .map((data: any, i: number) => {
+        if (data.type == "header") {
+          return {
+            text: data.data.text,
+            blockNo: i,
+            level: data.data.level,
+          };
+        }
+      })
+      .filter((data: any) => data != undefined);
+    // console.log(titles);
+
+    const postdata: BlogPostAndHeading = {
+      post: blogPostObj,
+      titles: titles,
+    };
+
+    return postdata;
   } catch (err) {
     console.log("get by id/n");
     console.log(err);

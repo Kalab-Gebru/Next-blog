@@ -25,10 +25,10 @@ export default function ScrollToTop() {
       {showTopBtn && (
         <button
           onClick={goToTop}
-          className="flex items-center justify-center z-30 fixed bottom-12 right-32 rounded-full w-12 h-12 bg-green-400 hover:bg-green-600 text-white"
+          className="fixed z-30 flex items-center justify-center w-16 h-16 text-white bg-green-400 rounded-full md:w-12 md:h-12 bottom-24 md:bottom-12 right-12 md:right-32 hover:bg-green-600"
         >
           {/* <span>Top</span> */}
-          <AiOutlineArrowUp size={24} />
+          <AiOutlineArrowUp size={24} className="w-12 h-12 md:w-6 md:h-6" />
         </button>
       )}
     </>

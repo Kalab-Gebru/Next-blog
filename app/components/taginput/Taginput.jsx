@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { COUNTRIES } from "./Tagesuggestions";
+import { TagSuggestions } from "./Tagesuggestions";
 import { WithContext as ReactTags } from "react-tag-input";
 import "./tag.css";
 
-const suggestions = COUNTRIES.map((country) => {
+const suggestions = TagSuggestions.map((catagory) => {
   return {
-    id: country,
-    text: country,
+    id: catagory,
+    text: catagory,
   };
 });
 

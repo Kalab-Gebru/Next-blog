@@ -15,6 +15,12 @@ type BlogPost = {
   content: any;
 };
 
+type BlogPostAndHeading = {
+  post: BlogPost;
+  // content: ReactElement<any, string | JSXElementConstructor<any>>,
+  titles: headings[];
+};
+
 type createdPost = {
   meta: {
     auther: Auther;
@@ -28,10 +34,17 @@ type createdPost = {
 
 type Auther = {
   userName: string | null;
+  img: string | null;
   email: string | null;
 };
 
 type tag = {
   id: string;
   text: string;
+};
+
+type headings = {
+  text: string;
+  blockNo: number;
+  level: number;
 };
