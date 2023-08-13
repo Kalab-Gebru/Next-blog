@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import EditPostForm from "../../components/EditPostForm";
 import { redirect } from "next/navigation";
 import { Auther } from "@/types";
+import ScrollToBottom from "@/app/components/ScrollToBottom";
 
 type Props = {
   params: {
@@ -38,6 +39,7 @@ export default async function EditPost({ params: { postId } }: Props) {
         auther={User}
         imgURL={post.meta.imgURL}
       />
+      <ScrollToBottom />
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function ListItem({ post, user }: Props) {
         <Image
           src={imgURL}
           alt={imgURL}
-          className="col-span-12 border rounded md:col-span-5 aspect-[1.75]"
+          className="col-span-12 border w-full rounded md:col-span-5 aspect-[1.75]"
           width={300}
           height={200}
           style={{ objectFit: "cover" }}

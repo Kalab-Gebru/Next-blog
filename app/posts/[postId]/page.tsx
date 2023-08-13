@@ -16,12 +16,14 @@ type Props = {
 };
 
 // fix "dynamic server usage" errors in dev mode by turning off static generation and forcing dynamic rendering
-export const generateStaticParams =
-  process.env.NODE_ENV === "production" ? staticParams : undefined;
-export const dynamic =
-  process.env.NODE_ENV === "production" ? "auto" : "force-dynamic";
+// uncomment the next 2 exports for local dev and replace staticParams with generateStaticParams
 
-export async function staticParams() {
+// export const generateStaticParams =
+//   process.env.NODE_ENV === "production" ? staticParams : undefined;
+// export const dynamic =
+//   process.env.NODE_ENV === "production" ? "auto" : "force-dynamic";
+
+export async function generateStaticParams() {
   const posts = await getPostsMeta(); //deduped!
 
   if (!posts) return [];

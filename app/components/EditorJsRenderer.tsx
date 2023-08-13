@@ -296,7 +296,7 @@ const EditorJsRenderer = ({
       <Image
         src={block.data.url}
         alt={caption}
-        className="w-full rounded aspect-2 dark:border-slate-600"
+        className="rounded w-fit h-fit aspect-2 dark:border-slate-600"
         width={1200}
         height={720}
       />
@@ -393,10 +393,7 @@ const EditorJsRenderer = ({
   }
   return (
     //✔️ It's important to add key={data.time} here to re-render based on the latest data.
-    <div
-      className="prose-2xl divide-y-2 lg:prose dark:prose-invert"
-      key={data.time}
-    >
+    <div className="divide-y-2" key={data.time}>
       {/* {html.map((item, index) => {
         if (typeof item === "string") {
           return (
@@ -408,7 +405,9 @@ const EditorJsRenderer = ({
       })} */}
 
       <div className="mb-4">
-        <h1 className="m-0 mt-4 text-black dark:text-white">{title}</h1>
+        <h1 className="text-5xl font-bold text-black md:text-6xl lg:text-5xl dark:text-white">
+          {title}
+        </h1>
         <div className="mt-2 mb-4 text-2xl lg:text-sm ">
           {auther && (
             <div className="flex items-center gap-2">
@@ -450,7 +449,7 @@ const EditorJsRenderer = ({
         </div>
       </div>
       <div>
-        <div className="">
+        <div className="mb-16">
           {coverImg && (
             <Image
               src={coverImg}
@@ -462,7 +461,7 @@ const EditorJsRenderer = ({
             />
           )}
         </div>
-        <div className="">
+        <div className="prose-2xl lg:prose-lg dark:prose-invert">
           {...data.blocks.map((b, index) => element(b, index))}
         </div>
       </div>
