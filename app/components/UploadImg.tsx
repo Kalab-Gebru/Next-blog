@@ -83,7 +83,7 @@ const UploadImageToStorage = ({ setURL }: props) => {
 
         <div className="mt-5">
           {imageFile && (
-            <div className="bg-white shadow p-4 rounded-md">
+            <div className="bg-white dark:bg-slate-500 shadow p-4 rounded-md">
               <div className="flex items-center justify-between">
                 <div className="flex gap-4">
                   <span>{imageFile.name}</span>
