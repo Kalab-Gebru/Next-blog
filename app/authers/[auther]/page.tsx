@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 
 export function generateMetadata({ params: { auther } }: Props) {
   return {
-    title: `Posts by ${auther.replace("%20", " ")}`,
+    title: `Posts by ${auther.replace("%40", "@")}`,
   };
 }
 
@@ -50,9 +50,9 @@ export default async function autherPostList({ params: { auther } }: Props) {
     return <p className="mt-10 text-center">Sorry, no posts available.</p>;
 
   const autherPosts = posts.filter(
-    (post) => post.auther.userName == auther.replace("%20", " ")
+    (post) => post.auther.email == auther.replace("%40", "@")
   );
-  console.log(auther.replace("%20", " "), autherPosts);
+  console.log(auther.replace("%40", "@"), autherPosts);
 
   if (!autherPosts.length) {
     return (
@@ -81,7 +81,7 @@ export default async function autherPostList({ params: { auther } }: Props) {
     // </div>
     <section className="w-full xl:w-[900px] px-12 py-6 mx-auto">
       <h2 className="pb-2 text-4xl">
-        Results for: @{auther.replace("%20", " ")}
+        Results for: @{auther.replace("%40", "@")}
       </h2>
       <ul className="w-full gap-4 p-0 my-6 list-none">
         {autherPosts.map((post) => (
