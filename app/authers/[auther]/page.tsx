@@ -84,7 +84,7 @@ export default async function autherPostList({ params: { auther } }: Props) {
         Results for: @{auther.replace("%20", " ")}
       </h2>
       <ul className="w-full gap-4 p-0 my-6 list-none">
-        {posts.map((post) => (
+        {autherPosts.map((post) => (
           <ListItem key={post.id} post={post} user={user} />
         ))}
       </ul>
