@@ -39,7 +39,7 @@ export default function ListItem({ post, user }: Props) {
         <div className="flex flex-row items-center gap-2 mt-4 text-2xl md:mt-1 md:text-sm">
           <Link
             className="flex items-center gap-2 "
-            href={`/authers/${auther.userName}`}
+            href={`/authers/${auther.email}`}
           >
             <Image
               src={auther.img ? auther.img : profilepic}
@@ -52,7 +52,7 @@ export default function ListItem({ post, user }: Props) {
           <div className="flex flex-col ">
             <Link
               className="text-black no-underline dark:text-white hover:text-black/70 dark:hover:text-gray-300"
-              href={`/authers/${auther.userName}`}
+              href={`/authers/${auther.email}`}
             >
               {" "}
               {auther.email}{" "}
@@ -73,7 +73,7 @@ export default function ListItem({ post, user }: Props) {
           ))}
         </div>
       </div>
-      {auther.userName == user?.userName ? (
+      {auther.email == user?.email ? (
         <Link
           href={`/editPost/${id}`}
           className="absolute top-0 right-0 hover:text-blue-500"
