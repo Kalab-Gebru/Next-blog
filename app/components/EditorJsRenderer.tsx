@@ -413,7 +413,7 @@ const EditorJsRenderer = ({
             <div className="flex items-center gap-2">
               <Link
                 className="flex items-center gap-2 "
-                href={`/authers/${auther.userName}`}
+                href={`/authers/${auther.email}`}
               >
                 <Image
                   src={auther.img ? auther.img : profilepic}
@@ -426,7 +426,7 @@ const EditorJsRenderer = ({
               <div className="flex flex-col">
                 <Link
                   className="text-black no-underline dark:text-white hover:text-black/70 dark:hover:text-gray-300"
-                  href={`/authers/${auther.userName}`}
+                  href={`/authers/${auther.email}`}
                 >
                   {" "}
                   {auther.email}{" "}
