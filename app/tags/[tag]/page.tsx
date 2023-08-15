@@ -59,7 +59,7 @@ export default async function TagPostList({ params: { tag } }: Props) {
         Results for: #{tag.replaceAll("%20", " ")}
       </h2>
       <ul className="w-full gap-4 p-0 my-6 list-none">
-        {posts.map((post) => (
+        {tagPosts.map((post) => (
           <ListItem key={post.id} post={post} />
         ))}
       </ul>
