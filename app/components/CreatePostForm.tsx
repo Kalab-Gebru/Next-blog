@@ -32,6 +32,15 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
   const [editMode, setEditMode] = useState(true);
   const [data, setData] = useState<OutputData>();
 
+  function resetRedirect() {
+    setTags([]);
+    setTitle("");
+    setData({ time: new Date().getMilliseconds(), blocks: [] });
+    setEditMode((pre) => false);
+    setDownloadURL("");
+    setEditMode((pre) => true);
+  }
+
   function onsubmit(e: any) {
     e.preventDefault();
     if (tags?.length != 0) {
@@ -50,17 +59,10 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
 
         try {
           createPosts(CreatedPostData);
-          toast.success("posted successfully.");
+          resetRedirect();
         } catch (error) {
-          toast.error("Failed to create post. Please try again.");
+          console.log("Failed to create post.");
         }
-
-        setTags([]);
-        setTitle("");
-        setData({ time: new Date().getMilliseconds(), blocks: [] });
-        setEditMode((pre) => false);
-        setDownloadURL("");
-        setEditMode((pre) => true);
       } else {
         toast.error("there is no uploaded image");
       }

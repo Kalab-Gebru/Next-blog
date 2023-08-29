@@ -15,6 +15,8 @@ import {
   createdPost,
   headings,
 } from "@/types";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 export async function getPostById(
   postId: string
@@ -91,8 +93,11 @@ export async function createPosts(postInput: createdPost) {
   try {
     await addDoc(postref, { ...postInput });
     console.log("post created");
+    toast.success("posted successfully.");
+    // redirect(`/authers/${postInput.meta.auther.email}`);
   } catch (err) {
     console.log(err);
+    toast.error("Failed to create post. Please try again.");
   }
 }
 
@@ -116,5 +121,6 @@ export async function updatePosts(
     console.log("post updated");
   } catch (err) {
     console.log(err);
+    throw new Error();
   }
 }
