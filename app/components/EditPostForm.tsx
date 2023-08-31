@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Taginput from "./taginput/Taginput";
 import { updatePosts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Auther, BlogPost, createdPost, tag } from "@/types";
@@ -66,7 +65,6 @@ export default function EditPostForm({
         },
         content: data,
       };
-      console.log(CreatedPostData);
 
       try {
         updatePosts(CreatedPostData, id);

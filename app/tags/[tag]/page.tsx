@@ -54,8 +54,8 @@ export default async function TagPostList({ params: { tag } }: Props) {
   }
 
   return (
-    <section className="w-full xl:w-[900px] px-12 py-6 mx-auto">
-      <h2 className="pb-2 text-4xl ">
+    <section className="w-full xl:w-[900px] px-2 md:px-12 py-3 mx-auto">
+      <h2 className="pb-2 text-2xl md:text-4xl ">
         Results for: #{tag.replaceAll("%20", " ")}
       </h2>
       <ul className="w-full gap-4 p-0 my-6 list-none">

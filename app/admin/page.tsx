@@ -13,7 +13,6 @@ export default async function page() {
     role: session?.user?.role || null,
   };
 
-  console.log(draft);
   if (!draft || draft?.length == 0)
     return <p className="mt-24 text-lg text-center">No Draft Available.</p>;
 

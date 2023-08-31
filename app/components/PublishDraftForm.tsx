@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Taginput from "./taginput/Taginput";
 import { PublishPosts, publishUpdatePost, updateDrafts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Auther, BlogDraft, BlogPost, createdPost, tag } from "@/types";

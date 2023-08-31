@@ -383,7 +383,6 @@ const EditorJsRenderer = ({
       result.push(temp);
     }
 
-    console.log(result);
     return result;
   }
   const newblock = test(data.blocks);

@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Taginput from "../components/taginput/Taginput";
 import TagSelector from "../components/taginput/TagSelector";
 import { createDrafts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
@@ -58,7 +57,6 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
           },
           content: data,
         };
-        console.log(CreatedPostData);
 
         try {
           createDrafts(CreatedPostData);
