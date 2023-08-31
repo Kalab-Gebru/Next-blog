@@ -45,3 +45,12 @@ h6 {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
+.active-scroll-spy {
+  @apply border-green-400 bg-green-400/40;
+}
+
+/* .active-scroll-spy {
+  background-color: yellowgreen;
+  border-radius: 15px;
+} */

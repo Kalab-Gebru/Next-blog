@@ -10,6 +10,7 @@ export default async function CreatePost() {
     userName: session?.user?.name || null,
     img: session?.user?.image || null,
     email: session?.user?.email || null,
+    role: session?.user?.role || null,
   };
   return (
     <div className="relative w-full xl:w-[900px] text-black dark:text-white">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Taginput from "./taginput/Taginput";
-import { updatePosts } from "@/lib/posts";
+import { updateDrafts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
 import { Auther, BlogPost, createdPost, tag } from "@/types";
 import { OutputData } from "@editorjs/editorjs";
@@ -29,7 +29,7 @@ type Props = {
  * @param {Props} props - The props object containing the post data, author information, and optional post ID.
  * @returns {JSX.Element} - The rendered form for creating or updating a blog post.
  */
-export default function EditPostForm({
+export default function EditDraftForm({
   auther,
   id,
   post,
@@ -66,10 +66,9 @@ export default function EditPostForm({
         },
         content: data,
       };
-      console.log(CreatedPostData);
 
       try {
-        updatePosts(CreatedPostData, id);
+        updateDrafts(post, CreatedPostData, id);
         resetRedirect();
       } catch (error) {
         console.log(error);
@@ -81,8 +80,8 @@ export default function EditPostForm({
 
   return (
     <div className="p-4 pb-6">
-      <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl">Edit post page</h1>
+      <div className="flex flex-col items-end justify-between gap-4 py-4 sm:items-center sm:flex-row">
+        <h1 className="w-full text-2xl sm:w-fit">Edit Draft page</h1>
 
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -180,7 +179,7 @@ export default function EditPostForm({
           onSubmit={(e) => onsubmit(e)}
           className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          save draft
+          Save Draft
         </button>
       </form>
     </div>

@@ -21,13 +21,13 @@ const ThemeSwitcher = () => {
       <MdOutlineDarkMode
         onClick={() => setTheme("dark")}
         size={24}
-        className="w-10 h-10 md:w-6 md:h-6"
+        className="w-6 h-6 md:w-7 md:h-7"
       />
     ) : (
       <MdOutlineLightMode
         onClick={() => setTheme("light")}
         size={24}
-        className="w-10 h-10 md:w-6 md:h-6"
+        className="w-6 h-6 md:w-7 md:h-7"
       />
     );
 

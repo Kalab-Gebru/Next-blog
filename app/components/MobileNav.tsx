@@ -17,7 +17,7 @@ export default function MobileNav({ imgUrl, name, email }: Props) {
       <Image
         src={imgUrl || profilepic}
         alt="Picture of the author"
-        className="border rounded-full dark:border-slate-600 w-14 h-14 md:w-10 md:h-10"
+        className="border rounded-full dark:border-zinc-600 w-7 h-7"
         onClick={() => setToggelMenu((pre) => !pre)}
         width={40}
         height={40}
@@ -28,10 +28,10 @@ export default function MobileNav({ imgUrl, name, email }: Props) {
             className="flex flex-col overflow-hidden border-2 border-gray-400 rounded-lg"
             onClick={() => setToggelMenu((pre) => !pre)}
           >
-            <div className="px-4 py-3 bg-gray-100">
+            <div className="px-4 py-3 bg-gray-100 dark:bg-zinc-700">
               <Link
-                className="flex flex-col text-3xl text-gray-800 no-underline hover:text-black/70 dark:text-white dark:hover:text-white/90 "
-                href={`/authers/${name}`}
+                className="flex flex-col text-xl text-gray-800 no-underline md:text-3xl hover:text-black/70 dark:text-white dark:hover:text-white/90 "
+                href={`/authers/${email}`}
               >
                 <span>{name}</span>
                 <span>{email}</span>
@@ -39,7 +39,7 @@ export default function MobileNav({ imgUrl, name, email }: Props) {
             </div>
             <Link
               href="/create-post"
-              className="flex items-center justify-center px-4 py-2 text-3xl text-white no-underline bg-green-500 dark:bg-green-600"
+              className="flex items-center justify-center px-4 py-2 text-xl text-white no-underline bg-green-500 md:text-3xl dark:bg-green-600"
             >
               Create a post
             </Link>

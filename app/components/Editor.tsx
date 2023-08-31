@@ -42,7 +42,7 @@ const EditorBlock = ({ data, onChange, holder }: Props) => {
 
   return (
     <div
-      className="pt-6 mx-16 prose-xl lg:prose-lg dark:prose-invert"
+      className="pt-6 mx-4 prose-xl md:mx-16 lg:prose-lg dark:prose-invert"
       id={holder}
     />
   );

@@ -1,5 +1,5 @@
 import { options } from "../../api/auth/[...nextauth]/options";
-import { getPostById } from "@/lib/posts";
+import { PublishPosts, getDraftById } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import EditPostForm from "../../components/EditPostForm";
@@ -7,19 +7,20 @@ import { redirect } from "next/navigation";
 import { Auther } from "@/types";
 import ScrollToBottom from "@/app/components/ScrollToBottom";
 import EditDraftForm from "@/app/components/EditDraftForm";
+import PublishDraftForm from "@/app/components/PublishDraftForm";
 
 type Props = {
   params: {
-    postId: string;
+    draftId: string;
   };
 };
 
-export default async function EditPost({ params: { postId } }: Props) {
-  const postData = await getPostById(postId); //deduped!
+export default async function EditDraft({ params: { draftId } }: Props) {
+  const draftData = await getDraftById(draftId); //deduped!
 
-  if (!postData) notFound();
+  if (!draftData) notFound();
 
-  const { post } = postData;
+  const { post } = draftData;
 
   const session = await getServerSession(options);
   const User: Auther = {
@@ -35,12 +36,22 @@ export default async function EditPost({ params: { postId } }: Props) {
 
   return (
     <div className="w-full xl:w-[900px] text-black dark:text-white">
-      <EditPostForm
-        post={post}
-        id={post.meta.id}
-        auther={User}
-        imgURL={post.meta.imgURL}
-      />
+      {User.role == "admin" ? (
+        <PublishDraftForm
+          post={post}
+          id={post.meta.id}
+          auther={User}
+          imgURL={post.meta.imgURL}
+        />
+      ) : (
+        <EditDraftForm
+          post={post}
+          id={post.meta.id}
+          auther={User}
+          imgURL={post.meta.imgURL}
+        />
+      )}
+
       <ScrollToBottom />
     </div>
   );

@@ -2,13 +2,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Taginput from "../components/taginput/Taginput";
-import { createPosts, updatePosts } from "@/lib/posts";
+import TagSelector from "../components/taginput/TagSelector";
+import { createDrafts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
-import { Auther, BlogPost, createdPost, tag } from "@/types";
+import { Auther, createdPost, tag } from "@/types";
 import { OutputData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import EditorJsRenderer from "../components/EditorJsRenderer";
-// import { data1 } from "./defultEditorData";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import UploadImageToStorage from "./UploadImg";
 
@@ -31,14 +32,16 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
   const [downloadURL, setDownloadURL] = useState("");
   const [editMode, setEditMode] = useState(true);
   const [data, setData] = useState<OutputData>();
+  const router = useRouter();
 
   function resetRedirect() {
     setTags([]);
     setTitle("");
     setData({ time: new Date().getMilliseconds(), blocks: [] });
-    setEditMode((pre) => false);
+    setEditMode(false);
     setDownloadURL("");
-    setEditMode((pre) => true);
+    setEditMode(true);
+    router.push(`/authers//${auther.email}`);
   }
 
   function onsubmit(e: any) {
@@ -50,7 +53,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
             auther,
             date: getFormattedDate(),
             title: title,
-            tags: tags?.map((t: tag) => t.text),
+            tags: tags?.map((t: tag) => t.label),
             imgURL: downloadURL,
           },
           content: data,
@@ -58,7 +61,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
         console.log(CreatedPostData);
 
         try {
-          createPosts(CreatedPostData);
+          createDrafts(CreatedPostData);
           resetRedirect();
         } catch (error) {
           console.log("Failed to create post.");
@@ -73,8 +76,8 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
 
   return (
     <div className="p-4 pb-6 text-black dark:text-white">
-      <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl">Create post page</h1>
+      <div className="flex flex-col items-end justify-between gap-4 py-4 sm:items-center sm:flex-row">
+        <h1 className="w-full text-2xl sm:w-fit">Create post page</h1>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
             type="checkbox"
@@ -83,7 +86,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
             onChange={() => setEditMode((pre) => !pre)}
             checked={editMode}
           />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:tranzinc-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
             Edit Mode
           </span>
@@ -96,7 +99,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
         <div className="mb-4">
           {editMode ? (
             <>
-              <div className="p-4 bg-gray-100 rounded-lg dark:bg-slate-600">
+              <div className="p-4 bg-gray-100 rounded-lg dark:bg-zinc-600">
                 <div className="my-2">
                   <label
                     htmlFor="title"
@@ -114,7 +117,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
                     required
                   />
                 </div>
-                <div className="mt-2 mb-6">
+                <div className="z-20 mt-2 mb-6">
                   <label
                     htmlFor="tag"
                     className="block mb-1 text-sm font-medium "
@@ -122,7 +125,8 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
                     Tag
                   </label>
                   {/* {console.log(tags)} */}
-                  <Taginput setTags={setTags} tags={tags} />
+                  {/* <Taginput setTags={setTags} tags={tags} /> */}
+                  <TagSelector setTags={setTags} tags={tags} />
                 </div>
                 <div className="mt-4">
                   <UploadImageToStorage setURL={setDownloadURL} />
@@ -150,14 +154,14 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
             <div className="w-full pt-6">
               <h1 className="text-2xl font-bold text-green-600">Preview</h1>
 
-              <div className="p-16">
+              <div className="p-2 md:p-16">
                 {data && (
                   <EditorJsRenderer
                     data={data}
                     title={title}
                     coverImg={downloadURL}
                     date={getFormattedDate()}
-                    tags={tags?.map((t: tag) => t.text)}
+                    tags={tags?.map((t: tag) => t.label)}
                     auther={auther}
                   />
                 )}
@@ -169,7 +173,7 @@ export default function CreatePostForm({ auther }: Props): JSX.Element {
           onSubmit={(e) => onsubmit(e)}
           className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Post Blog
+          create draft
         </button>
       </form>
     </div>

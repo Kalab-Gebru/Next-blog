@@ -15,8 +15,21 @@ type BlogPost = {
   content: any;
 };
 
+type BlogDraft = {
+  type: { update: boolean; id: string };
+  meta: Meta;
+  // content: ReactElement<any, string | JSXElementConstructor<any>>,
+  content: any;
+};
+
 type BlogPostAndHeading = {
   post: BlogPost;
+  // content: ReactElement<any, string | JSXElementConstructor<any>>,
+  titles: headings[];
+};
+
+type DraftPostAndHeading = {
+  post: BlogDraft;
   // content: ReactElement<any, string | JSXElementConstructor<any>>,
   titles: headings[];
 };
@@ -36,11 +49,12 @@ type Auther = {
   userName: string | null;
   img: string | null;
   email: string | null;
+  role: string | null;
 };
 
 type tag = {
-  id: string;
-  text: string;
+  value: string;
+  label: string;
 };
 
 type headings = {

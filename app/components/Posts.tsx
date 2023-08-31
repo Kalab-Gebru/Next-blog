@@ -10,7 +10,7 @@ export default async function Posts() {
   }
 
   return (
-    <section className="w-full xl:w-[900px] px-12 py-6">
+    <section className="w-full xl:w-[900px] px-2 md:px-12 py-3">
       <h2 className="pb-2 text-4xl font-bold">Blog</h2>
       <ul className="w-full gap-4 p-0 my-6 list-none">
         {posts.map((post) => (

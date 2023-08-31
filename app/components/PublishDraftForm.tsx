@@ -2,9 +2,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Taginput from "./taginput/Taginput";
-import { updatePosts } from "@/lib/posts";
+import { PublishPosts, publishUpdatePost, updateDrafts } from "@/lib/posts";
 import getFormattedDate from "@/lib/getFormattedDate";
-import { Auther, BlogPost, createdPost, tag } from "@/types";
+import { Auther, BlogDraft, BlogPost, createdPost, tag } from "@/types";
 import { OutputData } from "@editorjs/editorjs";
 import dynamic from "next/dynamic";
 import EditorJsRenderer from "./EditorJsRenderer";
@@ -19,7 +19,7 @@ const EditorBlock = dynamic(() => import("./Editor"), {
 
 type Props = {
   auther: Auther;
-  post: BlogPost;
+  post: BlogDraft;
   id: string;
   imgURL: string;
 };
@@ -29,7 +29,7 @@ type Props = {
  * @param {Props} props - The props object containing the post data, author information, and optional post ID.
  * @returns {JSX.Element} - The rendered form for creating or updating a blog post.
  */
-export default function EditPostForm({
+export default function PublishDraftForm({
   auther,
   id,
   post,
@@ -50,7 +50,7 @@ export default function EditPostForm({
     setEditMode(false);
     setDownloadURL("");
     setEditMode(true);
-    router.push(`/authers/${auther.email}`);
+    router.push(`/admin`);
   }
 
   function onsubmit(e: any) {
@@ -58,7 +58,7 @@ export default function EditPostForm({
     if (tags?.length != 0) {
       const CreatedPostData: createdPost = {
         meta: {
-          auther,
+          auther: post.meta.auther,
           date: getFormattedDate(),
           title: title,
           tags: tags?.map((t: tag) => t.label),
@@ -66,10 +66,11 @@ export default function EditPostForm({
         },
         content: data,
       };
-      console.log(CreatedPostData);
 
       try {
-        updatePosts(CreatedPostData, id);
+        post.type.update
+          ? publishUpdatePost(CreatedPostData, post.type.id, id)
+          : PublishPosts(CreatedPostData, id);
         resetRedirect();
       } catch (error) {
         console.log(error);
@@ -82,7 +83,7 @@ export default function EditPostForm({
   return (
     <div className="p-4 pb-6">
       <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl">Edit post page</h1>
+        <h1 className="text-2xl">Edit & publish Draft page</h1>
 
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -176,11 +177,14 @@ export default function EditPostForm({
             </div>
           )}
         </div>
+
         <button
           onSubmit={(e) => onsubmit(e)}
+          type="submit"
+          id="publish"
           className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          save draft
+          publish post
         </button>
       </form>
     </div>

@@ -23,14 +23,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col justify-between min-h-screen bg-white dark:bg-slate-900`}
+        className={`${inter.className} flex flex-col justify-between min-h-screen bg-white dark:bg-zinc-900`}
       >
         <TProvider>
           <AuthProvider>
             <div className="pb-12">
               <Navbar />
               <Toaster position="top-center" reverseOrder={false} />
-              <main className="px-4 mx-auto md:px-6 prose-slate">
+              <main className="px-4 mx-auto md:px-6 prose-zinc">
                 {children}
               </main>
               <ScrollToTop />

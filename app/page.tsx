@@ -6,7 +6,7 @@ export const revalidate = 86400;
 export default function Home() {
   return (
     <div className="w-full">
-      <p className="px-4 mt-12 mb-12 text-5xl text-center md:text-3xl">
+      <p className="px-4 mt-12 mb-6 text-3xl text-center">
         Hello And Welcome 👋&nbsp;
         <span className="whitespace-nowrap">
           I'm <span className="font-bold">Kalab</span>.

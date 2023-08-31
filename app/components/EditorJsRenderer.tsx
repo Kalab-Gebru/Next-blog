@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import profilepic from "public/images/profile-photo-640x640.png";
 import { Auther } from "@/types";
+import Usespyscroll from "./Usespyscroll";
 
 //use require since editorjs-html doesn't have types
 // const editorJsHtml = require("editorjs-html");
@@ -12,7 +13,7 @@ type Props = {
   data: OutputData;
   title: string;
   date: string;
-  tags: any;
+  tags: string[];
   coverImg?: string;
   auther?: Auther;
 };
@@ -154,7 +155,7 @@ const EditorJsRenderer = ({
 
   function linkTool(block: OutputBlockData<string, any>) {
     return (
-      <div className="p-8 bg-white border rounded shadow-md dark:bg-slate-500">
+      <div className="p-8 bg-white border rounded shadow-md dark:bg-zinc-500">
         <div className="flex gap-4">
           <div className="">
             <h3 className="mt-0">{block.data.meta.title}</h3>
@@ -180,7 +181,7 @@ const EditorJsRenderer = ({
 
   function raw(block: OutputBlockData<string, any>) {
     return (
-      <div className="w-full p-4 bg-gray-500 rounded text-slate-50">
+      <div className="w-full p-4 bg-gray-500 rounded text-zinc-50">
         <p>{block.data.html}</p>
       </div>
     );
@@ -247,7 +248,7 @@ const EditorJsRenderer = ({
               {item.checked ? (
                 <input
                   type="checkbox"
-                  className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                  className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-tranzinc-y-2/4 before:-tranzinc-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
                   id={`item${index}`}
                   checked
                   readOnly
@@ -255,13 +256,13 @@ const EditorJsRenderer = ({
               ) : (
                 <input
                   type="checkbox"
-                  className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                  className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-tranzinc-y-2/4 before:-tranzinc-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
                   id={`item${index}`}
                   readOnly
                 />
               )}
             </label>
-            <div className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+            <div className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -tranzinc-y-2/4 -tranzinc-x-2/4 peer-checked:opacity-100">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-3.5 w-3.5"
@@ -296,7 +297,7 @@ const EditorJsRenderer = ({
       <Image
         src={block.data.url}
         alt={caption}
-        className="rounded w-fit h-fit aspect-2 dark:border-slate-600"
+        className="rounded w-fit h-fit aspect-2 dark:border-zinc-600"
         width={1200}
         height={720}
       />
@@ -394,21 +395,11 @@ const EditorJsRenderer = ({
   return (
     //✔️ It's important to add key={data.time} here to re-render based on the latest data.
     <div className="divide-y-2" key={data.time}>
-      {/* {html.map((item, index) => {
-        if (typeof item === "string") {
-          return (
-            <div dangerouslySetInnerHTML={{ __html: item }} key={index}></div>
-            // null
-          );
-        }
-        return item;
-      })} */}
-
       <div className="mb-4">
-        <h1 className="text-5xl font-bold text-black md:text-6xl lg:text-5xl dark:text-white">
+        <h1 className="text-3xl font-bold text-black md:text-4xl lg:text-5xl dark:text-white">
           {title}
         </h1>
-        <div className="mt-2 mb-4 text-2xl lg:text-sm ">
+        <div className="mt-2 mb-4 text-sm ">
           {auther && (
             <div className="flex items-center gap-2">
               <Link
@@ -418,7 +409,7 @@ const EditorJsRenderer = ({
                 <Image
                   src={auther.img ? auther.img : profilepic}
                   alt="Picture of the author"
-                  className="border rounded-full dark:border-slate-600"
+                  className="border rounded-full dark:border-zinc-600"
                   width={35}
                   height={35}
                 />
@@ -441,7 +432,7 @@ const EditorJsRenderer = ({
             <Link
               key={i}
               href={`/tags/${t}`}
-              className="px-2 text-black no-underline border rounded dark:text-white hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 dark:border-slate-500"
+              className="px-2 text-black no-underline border rounded dark:text-white hover:bg-gray-300 dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:border-zinc-500"
             >
               {t}
             </Link>
@@ -461,8 +452,10 @@ const EditorJsRenderer = ({
             />
           )}
         </div>
-        <div className="prose-2xl lg:prose-lg dark:prose-invert">
-          {...data.blocks.map((b, index) => element(b, index))}
+        <div className="prose-sm sm:prose lg:prose-lg dark:prose-invert">
+          <Usespyscroll>
+            {...data.blocks.map((b, index) => element(b, index))}
+          </Usespyscroll>
         </div>
       </div>
     </div>

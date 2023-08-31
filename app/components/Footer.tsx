@@ -2,18 +2,18 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-gray-50 dark:bg-slate-800 dark:border-slate-600">
+    <footer className="border-t bg-gray-50 dark:bg-zinc-800 dark:border-zinc-600">
       <div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <Link
               href="/"
-              className="text-4xl font-bold no-underline md:text-2xl text-black/70 hover:text-black dark:text-white dark:hover:text-white/90"
+              className="text-2xl font-bold no-underline text-black/70 hover:text-black dark:text-white dark:hover:text-white/90"
             >
-              KBlog
+              <span className="text-green-400">K</span>Blog
             </Link>
           </div>
-          <ul className="flex flex-wrap items-center mb-6 text-2xl font-medium text-gray-500 md:text-sm dark:text-gray-200 sm:mb-0">
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 dark:text-gray-200 sm:mb-0">
             <li>
               <a href="#" className="mr-4 hover:underline md:mr-6 ">
                 About
@@ -38,20 +38,20 @@ export default function Footer() {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
         <div className="md:flex md:items-center md:justify-between">
-          <p className="text-xl text-gray-500 md:text-sm dark:text-gray-200 md:text-center ">
+          <p className="text-sm text-gray-500 dark:text-gray-200 md:text-center">
             © 2023{" "}
             <a href="#" className="hover:underline">
               KBlog™
             </a>
             . All Rights Reserved.
           </p>
-          <div className="flex mt-8 space-x-5 text-gray-500 sm:justify-center md:mt-0 dark:text-gray-200 ">
+          <div className="flex justify-center gap-4 mt-8 md:mt-0 ">
             <a
               href="#"
               className="hover:text-gray-900 dark:hover:text-blue-500"
             >
               <svg
-                className="w-10 h-10 md:w-4 md:h-4"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -70,7 +70,7 @@ export default function Footer() {
               className="hover:text-gray-900 dark:hover:text-blue-500"
             >
               <svg
-                className="w-10 h-10 md:w-4 md:h-4"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -85,7 +85,7 @@ export default function Footer() {
               className="hover:text-gray-900 dark:hover:text-blue-500"
             >
               <svg
-                className="w-10 h-10 md:w-4 md:h-4"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -104,7 +104,7 @@ export default function Footer() {
               className="hover:text-gray-900 dark:hover:text-blue-500"
             >
               <svg
-                className="w-10 h-10 md:w-4 md:h-4"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -123,7 +123,7 @@ export default function Footer() {
               className="hover:text-gray-900 dark:hover:text-blue-500"
             >
               <svg
-                className="w-10 h-10 md:w-4 md:h-4"
+                className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"

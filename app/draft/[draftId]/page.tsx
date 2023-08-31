@@ -1,18 +1,21 @@
 import getFormattedDate from "@/lib/getFormattedDate";
-import { getPostsMeta, getPostById } from "@/lib/posts";
+import { getDraftById, getDraftMeta } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import "highlight.js/styles/github-dark.css";
 import EditorJsRenderer from "@/app/components/EditorJsRenderer";
 import StickySocialShare from "@/app/components/StickySocialShare";
 import SpyScroll from "@/app/components/SpyScroll";
-import Usespyscroll from "@/app/components/Usespyscroll";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { Auther } from "@/types";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
 export const revalidate = 86400;
 
 type Props = {
   params: {
-    postId: string;
+    draftId: string;
   };
 };
 
@@ -25,17 +28,17 @@ type Props = {
 //   process.env.NODE_ENV === "production" ? "auto" : "force-dynamic";
 
 export async function generateStaticParams() {
-  const posts = await getPostsMeta(); //deduped!
+  const posts = await getDraftMeta(); //deduped!
 
   if (!posts) return [];
 
-  return posts.map((post) => ({
-    postId: post.id,
+  return posts.map((draftId) => ({
+    draftId: draftId.id,
   }));
 }
 
-export async function generateMetadata({ params: { postId } }: Props) {
-  const postData = await getPostById(postId); //deduped!
+export async function generateMetadata({ params: { draftId } }: Props) {
+  const postData = await getDraftById(draftId); //deduped!
 
   if (!postData) {
     return {
@@ -49,20 +52,28 @@ export async function generateMetadata({ params: { postId } }: Props) {
   };
 }
 
-export default async function Post({ params: { postId } }: Props) {
-  const postData = await getPostById(postId); //deduped!
+export default async function draft({ params: { draftId } }: Props) {
+  const draftData = await getDraftById(draftId);
 
-  if (!postData) notFound();
+  const session = await getServerSession(options);
+  const User: Auther = {
+    userName: session?.user?.name || null,
+    img: session?.user?.image || null,
+    email: session?.user?.email || null,
+    role: session?.user?.role || null,
+  };
 
-  const { post, titles } = postData;
+  if (draftData?.post.meta.auther.email != User.email && User.role != "admin") {
+    redirect("/");
+  }
+
+  //deduped!
+
+  if (!draftData) notFound();
+
+  const { post, titles } = draftData;
 
   const { meta, content } = post;
-
-  const tags = meta.tags.map((tag, i) => (
-    <Link key={i} href={`/tags/${tag}`}>
-      {tag}
-    </Link>
-  ));
 
   return (
     <div className="">

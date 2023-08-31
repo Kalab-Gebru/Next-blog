@@ -1,10 +1,10 @@
-import { getPostsMeta } from "@/lib/posts";
+import { getDraftMeta, getPostsMeta } from "@/lib/posts";
 import ListItem from "@/app/components/ListItem";
 import { options } from "../../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
-import AllTag from "../../components/AllTags";
 import { Auther } from "@/types";
+import ListItemDraft from "@/app/components/ListItemdraft";
 
 export const revalidate = 86400;
 
@@ -39,55 +39,60 @@ export function generateMetadata({ params: { auther } }: Props) {
 
 export default async function autherPostList({ params: { auther } }: Props) {
   const posts = await getPostsMeta(); //deduped!
+  const draft = await getDraftMeta(); //deduped!
   const session = await getServerSession(options);
   const user: Auther = {
     userName: session?.user?.name || null,
     img: session?.user?.image || null,
     email: session?.user?.email || null,
+    role: session?.user?.role || null,
   };
 
-  if (!posts)
-    return <p className="mt-10 text-center">Sorry, no posts available.</p>;
+  if (!posts || !draft)
+    return (
+      <p className="mt-10 text-center">Sorry, no posts or draft available.</p>
+    );
 
   const autherPosts = posts.filter(
     (post) => post.auther.email == auther.replace("%40", "@")
   );
-  console.log(auther.replace("%40", "@"), autherPosts);
 
-  if (!autherPosts.length) {
+  const autherDrafts = draft.filter(
+    (draft) => draft.auther.email == auther.replace("%40", "@")
+  );
+
+  if (!autherPosts.length && !draft?.length) {
     return (
       <div className="text-center">
-        <p className="mt-10">Sorry, no posts for by the User.</p>
+        <p className="mt-10">Sorry, no posts or drafts by the User.</p>
         <Link href="/">Back to Home</Link>
       </div>
     );
   }
 
   return (
-    // <div className="flex flex-col items-center p-2 mx-auto mt-4">
-    //   <h2 className="mt-4 mb-0 text-3xl">
-    //     Results for: @{auther.replace("%20", " ")}
-    //   </h2>
-    //   <div className="flex gap-6 mt-6">
-    //     <section className="w-full xl:w-[900px] px-12 py-6">
-    //       <ul className="w-full list-none">
-    //         {autherPosts.map((post) => (
-    //           <ListItem key={post.id} post={post} user={user} />
-    //         ))}
-    //       </ul>
-    //     </section>
-    //     <AllTag />
-    //   </div>
-    // </div>
-    <section className="w-full xl:w-[900px] px-12 py-6 mx-auto">
-      <h2 className="pb-2 text-4xl">
+    <section className="flex flex-col gap-4 w-full xl:w-[900px] px-2 md:px-12 py-3 md:py-6 mx-auto">
+      <h2 className="pb-2 sm:text-2xl md:text-4xl">
         Results for: @{auther.replace("%40", "@")}
       </h2>
-      <ul className="w-full gap-4 p-0 my-6 list-none">
-        {autherPosts.map((post) => (
-          <ListItem key={post.id} post={post} user={user} />
-        ))}
-      </ul>
+      {user.email == auther.replace("%40", "@") && autherDrafts.length > 0 && (
+        <div className="p-4 border rounded-md ">
+          <h2 className="pb-2 text-3xl">Dafts</h2>
+          <ul className="w-full gap-4 p-0 my-6 list-none">
+            {autherDrafts.map((draft) => (
+              <ListItemDraft key={draft.id} draft={draft} user={user} />
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className="">
+        <h2 className="pb-2 text-xl md:text-3xl">Posts</h2>
+        <ul className="w-full gap-4 p-0 my-6 list-none">
+          {autherPosts.map((post) => (
+            <ListItem key={post.id} post={post} user={user} />
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

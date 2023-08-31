@@ -71,21 +71,17 @@ const UploadImageToStorage = ({ setURL }: props) => {
         <input
           type="file"
           name="file-input"
-          accept="image/png"
+          accept="image/*"
           id="file-input"
           onChange={(files) => handleSelectedFile(files.target.files)}
-          className="block w-full border border-gray-200 shadow-sm rounded-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 
-    file:bg-transparent file:border-0
-    file:bg-gray-100 file:mr-4
-    file:py-3 file:px-4
-    "
+          className="block w-full text-sm border border-gray-200 rounded-md shadow-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 file:bg-transparent file:border-0 file:bg-gray-100 file:mr-4 file:py-3 file:px-4 "
         />
 
         <div className="mt-5">
           {imageFile && (
-            <div className="bg-white dark:bg-slate-500 shadow p-4 rounded-md">
+            <div className="p-4 bg-white rounded-md shadow dark:bg-zinc-500">
               <div className="flex items-center justify-between">
-                <div className="flex gap-4">
+                <div className="flex flex-col gap-4 md:flex-row">
                   <span>{imageFile.name}</span>
                   <span>{`Size: ${imageFile.size}`}</span>
                 </div>
@@ -99,13 +95,13 @@ const UploadImageToStorage = ({ setURL }: props) => {
                 <button
                   onClick={handleUploadFile}
                   disabled={isUploading ? true : false}
-                  className="w-28 text-white h-10 bg-blue-600 rounded"
+                  className="h-10 text-white bg-blue-600 rounded w-28"
                 >
                   {isUploading ? `Uploading` : `Upload`}
                 </button>
 
                 <progress
-                  className="progress progress-success rounded w-full"
+                  className="w-full rounded progress progress-success"
                   value={progressUpload}
                   max="100"
                 ></progress>
