@@ -41,50 +41,20 @@ const EditorJsRenderer = ({
     );
   }
 
-  function header(block: OutputBlockData<string, any>, index: number) {
+  function header(block: OutputBlockData<string, any>) {
     switch (block.data.level) {
       case 1:
-        return (
-          <h1
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h1>
-        );
+        return <h1 dangerouslySetInnerHTML={{ __html: block.data.text }}></h1>;
       case 2:
-        return (
-          <h2
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h2>
-        );
+        return <h2 dangerouslySetInnerHTML={{ __html: block.data.text }}></h2>;
       case 3:
-        return (
-          <h3
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h3>
-        );
+        return <h3 dangerouslySetInnerHTML={{ __html: block.data.text }}></h3>;
       case 4:
-        return (
-          <h4
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h4>
-        );
+        return <h4 dangerouslySetInnerHTML={{ __html: block.data.text }}></h4>;
       case 5:
-        return (
-          <h5
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h5>
-        );
+        return <h5 dangerouslySetInnerHTML={{ __html: block.data.text }}></h5>;
       case 6:
-        return (
-          <h6
-            id={index.toString()}
-            dangerouslySetInnerHTML={{ __html: block.data.text }}
-          ></h6>
-        );
+        return <h6 dangerouslySetInnerHTML={{ __html: block.data.text }}></h6>;
     }
   }
 
@@ -362,12 +332,12 @@ const EditorJsRenderer = ({
     );
   }
 
-  function element(block: OutputBlockData<string, any>, index: number) {
+  function element(block: OutputBlockData<string, any>) {
     switch (block.type) {
       case "paragraph":
         return paragraph(block);
       case "header":
-        return header(block, index);
+        return header(block);
       case "list":
         return list(block);
       case "checklist":
@@ -392,6 +362,31 @@ const EditorJsRenderer = ({
         return table(block);
     }
   }
+  function test(blocks: any) {
+    blocks;
+    let result: any = [];
+    let temp: any = [];
+    blocks.map((b: any) => {
+      if (b.type == "header") {
+        if (temp.length != 0) {
+          result.push(temp);
+          temp = [];
+        }
+
+        temp.push(b);
+      } else {
+        temp.push(b);
+      }
+    });
+
+    if (temp.length != 0) {
+      result.push(temp);
+    }
+
+    console.log(result);
+    return result;
+  }
+  const newblock = test(data.blocks);
   return (
     //✔️ It's important to add key={data.time} here to re-render based on the latest data.
     <div className="divide-y-2" key={data.time}>
@@ -452,9 +447,18 @@ const EditorJsRenderer = ({
             />
           )}
         </div>
+
         <div className="prose-sm sm:prose lg:prose-lg dark:prose-invert">
           <Usespyscroll>
-            {...data.blocks.map((b, index) => element(b, index))}
+            {...newblock.map((bb: any, i: number) => {
+              return (
+                <section className="" id={i.toString()}>
+                  {bb.map((b: any, index: number) => {
+                    return element(b);
+                  })}
+                </section>
+              );
+            })}
           </Usespyscroll>
         </div>
       </div>

@@ -59,6 +59,5 @@ type tag = {
 
 type headings = {
   text: string;
-  blockNo: number;
   level: number;
 };

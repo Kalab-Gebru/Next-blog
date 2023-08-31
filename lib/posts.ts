@@ -38,11 +38,10 @@ export async function getPostById(
     };
 
     const titles: headings[] = blogPostObj.content.blocks
-      .map((data: any, i: number) => {
+      .map((data: any) => {
         if (data.type == "header") {
           return {
             text: data.data.text,
-            blockNo: i,
             level: data.data.level,
           };
         }

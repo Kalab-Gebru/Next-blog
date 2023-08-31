@@ -13,20 +13,13 @@ function SpyScroll({ titles }: Props) {
         {titles.map((t, i) => (
           <li
             className="px-2 list-none border-l-4"
-            data-to-scrollspy-id={`${t.blockNo.toString()}`}
+            data-to-scrollspy-id={`${i}`}
             key={i}
           >
-            <a href={`#${t.blockNo.toString()}`}>{t.text}</a>
+            <a href={`#${i}`}>{t.text}</a>
           </li>
         ))}
       </div>
-      <p className="mt-6">
-        👍
-        <span className="underline">
-          Content with style and Scrollspy will be inplimented soon
-        </span>
-        👍
-      </p>
     </div>
   );
 }
