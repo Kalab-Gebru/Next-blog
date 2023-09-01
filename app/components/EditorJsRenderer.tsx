@@ -451,9 +451,13 @@ const EditorJsRenderer = ({
           <Usespyscroll>
             {...newblock.map((bb: any, i: number) => {
               return (
-                <section className="" id={i.toString()}>
+                <section key={`b${i}`} className="" id={i.toString()}>
                   {bb.map((b: any, index: number) => {
-                    return element(b);
+                    return (
+                      <div className="" key={`e${index}`}>
+                        {element(b)}
+                      </div>
+                    );
                   })}
                 </section>
               );
