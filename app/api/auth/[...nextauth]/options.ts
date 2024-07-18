@@ -56,9 +56,9 @@ export const options: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  //   pages:{
-  //     signIn:
-  //   }
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
     async jwt({ token, user }) {
