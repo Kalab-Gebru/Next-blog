@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full h-full">
-      <div className="pb-12">
+    <main className="flex flex-col w-full min-h-screen">
+      <div className="flex-1 pb-12">
         <Navbar />
         <Toaster position="top-center" reverseOrder={false} />
         <main className="px-4 mx-auto md:px-6 prose-zinc">{children}</main>

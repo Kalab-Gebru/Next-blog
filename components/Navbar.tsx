@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { options } from "../app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
-import profilepic from "public/images/profile-photo-640x640.png";
 import ThemeSwitcher from "./ThemeSwitcher";
 import MobileNav from "./MobileNav";
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,7 @@ export default async function Navbar() {
                   <Button asChild variant={"outline"}>
                     <Link
                       href="/admin"
-                      className="flex items-center justify-center py-1 text-black no-underline border-b-2 border-blue-500 dark:text-white hover:text-blue-500 dark:hover:text-blue-500 dark:border-blue-600 "
+                      // className="flex items-center justify-center py-1 text-black no-underline border-b-2 border-blue-500 dark:text-white hover:text-blue-500 dark:hover:text-blue-500 dark:border-blue-600 "
                     >
                       Admin Page
                     </Link>
@@ -46,20 +45,14 @@ export default async function Navbar() {
                   </Link>
                 </Button>
 
-                <Link
-                  className="text-lg text-black no-underline hover:text-black/70 dark:text-white dark:hover:text-white/90"
-                  href={`/authers/${session.user.email}`}
-                >
-                  {session.user.name}
+                <Link href={`/authers/${session.user.email}`}>
+                  <Avatar>
+                    <AvatarImage src={session.user.image} />
+                    <AvatarFallback>
+                      {session.user.name.slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                 </Link>
-
-                <Avatar>
-                  <AvatarImage src={session.user.image} />
-                  <AvatarFallback>
-                    {session.user.name.slice(0, 2)}
-                  </AvatarFallback>
-                </Avatar>
-
                 <SignOutButton />
               </div>
             ) : (

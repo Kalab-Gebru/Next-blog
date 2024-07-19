@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Meta, Auther } from "@/types";
 import { BiEdit } from "react-icons/bi";
-import profilepic from "public/images/profile-photo-640x640.png";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { badgeVariants } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type Props = {
   post: Meta;
@@ -52,13 +52,15 @@ export default function ListItem({ post, user }: Props) {
               className="flex items-center gap-2 "
               href={`/authers/${auther.email}`}
             >
-              <Image
-                src={auther.img ? auther.img : profilepic}
-                alt="Picture of the author"
-                className="border rounded-full w-7 h-7 dark:border-zinc-600"
-                width={30}
-                height={30}
-              />
+              <Avatar className="w-[30px] h-[30px]">
+                <AvatarImage
+                  src={auther.img || ""}
+                  alt="Picture of the author"
+                />
+                <AvatarFallback>
+                  {auther.userName ? auther.userName.slice(0, 2) : ""}
+                </AvatarFallback>
+              </Avatar>
             </Link>
             <div className="flex flex-col ">
               <Link
